@@ -1,0 +1,146 @@
+package ui;
+
+
+
+import java.io.IOException;
+
+import java.util.ArrayList;
+
+import java.util.Stack;
+
+
+
+import javafx.application.Application;
+
+import javafx.fxml.FXMLLoader;
+
+import javafx.scene.Group;
+
+import javafx.scene.Scene;
+
+import javafx.scene.canvas.Canvas;
+
+import javafx.scene.canvas.GraphicsContext;
+
+import javafx.scene.input.MouseEvent;
+
+import javafx.scene.layout.BorderPane;
+
+import javafx.scene.layout.Pane;
+
+import javafx.scene.transform.Scale;
+
+import javafx.stage.Stage;
+
+import symbols.RRectangle;
+
+import symbols.Rectangle;
+
+import symbols.Symbols;
+
+
+
+public class PaneDemo extends Application {
+
+
+
+	private static Stage primaryStage;
+
+	private BorderPane mainLayout;
+
+
+
+	@Override
+
+	public void start(Stage primaryStage) throws IOException {
+
+		this.primaryStage = primaryStage;
+
+		this.primaryStage.setTitle("流程图绘制程序");
+
+		showMainView();
+
+
+
+	}
+
+
+
+	private void showMainView() throws IOException {
+
+		FXMLLoader loader = new FXMLLoader();
+
+		loader.setLocation(Main.class.getResource("/view/initView1.fxml"));
+
+		mainLayout = loader.load();
+
+		Scene scene = new Scene(mainLayout);
+
+		Pane pane = (Pane) mainLayout.getCenter();
+
+		RRectangle r = new RRectangle(100, 40);
+		pane.getChildren().add(r);
+		if(r.isElected()) {
+			pane.getChildren().add(r.getControl());
+		}
+		r.draw(pane);
+
+		
+
+		primaryStage.setScene(scene);
+
+		// ArrayList<Symbols> l = new ArrayList<>();
+
+		// l.add(new Rectangle(100,100));
+
+		// Sketchpad k = new Sketchpad(500, 600, l);
+
+		// k.setSketchpad();
+
+		primaryStage.show();
+
+	}
+
+
+
+	private static Stack<Scene> StageStack = new Stack<Scene>();
+
+
+
+	public static void setScene(Scene scene) {
+
+		primaryStage.setScene(scene);
+
+		StageStack.add(scene);
+
+	}
+
+
+
+	public static void backToLastScene() {
+
+		if (!StageStack.isEmpty()) {
+
+			Scene scene = StageStack.peek();
+
+			primaryStage.setScene(scene);
+
+		} else {
+
+			// doing nothing
+
+		}
+
+
+
+	}
+
+
+
+	public static void main(String[] args) {
+
+		launch(args);
+
+	}
+
+}
