@@ -1,0 +1,281 @@
+
+package symbols;
+
+import javafx.scene.Cursor;
+
+import javafx.scene.layout.Pane;
+
+import javafx.scene.paint.Color;
+
+import javafx.scene.paint.Paint;
+
+import javafx.scene.shape.Rectangle;
+
+import javafx.scene.text.Text;
+
+/**
+ * 
+ * RRectangle类继承Rectangle 新增数据域：选中状态、文本框、图形类型 新增函数：draw()
+ * 
+ * 
+ * 
+ * @author suisui
+ *
+ * 
+ * 
+ */
+
+public class RRectangle extends Rectangle {
+
+	Pane pane;
+	private boolean isElected = false; // 选中状态，默认没被选中
+
+	private Text text; // 文本框
+
+	// private String content; // 文本框
+
+	private int type; // 图形类型
+
+	private Rectangle control = new Rectangle();
+
+	public void draw(Pane pane) {
+
+		this.setY((pane.getPrefHeight() - this.getHeight()) / 2);
+
+		this.setX((pane.getPrefWidth() - this.getWidth()) / 2);
+
+		
+
+	
+
+	}
+
+	// 画出判断框（未完善）
+
+	private void drawElectBox(boolean isElect) {
+
+		if (isElected) {
+
+			control.setX(this.getX() - 5);
+			control.setY(this.getY() - 5);
+			control.setWidth(this.getWidth());
+			control.setHeight(this.getHeight());
+//			pane.getChildren().add(control);
+		}
+
+	}
+
+	public boolean isSelect(double x, double y) { // 传入鼠标坐标判断是否被选中
+
+		isElected = false;
+
+		if (x >= this.getX() && x <= this.getX() + this.getWidth()) {
+
+			if (y <= this.getY() && y >= y - this.getHeight()) {
+
+				isElected = true;
+				
+			}
+
+		}
+
+		return isElected;
+
+	}
+
+	private void initialize() {
+
+		this.setCursor(Cursor.HAND);
+
+		this.setStroke(Color.BLACK);
+
+		this.setFill(Color.WHITE);
+
+		this.setStrokeWidth(1.3);
+		
+		this.setOnMouseClicked(e -> {
+			isElected = true;
+			drawElectBox(isElected);
+		});
+
+		this.setOnMouseDragged(e -> {
+
+			while (true) {
+
+				if (this.getX() >= 0 && this.getY() >= 0) {
+
+					this.setX(e.getX() - this.getWidth() / 2);
+
+					this.setY(e.getY() - this.getHeight() / 2);
+
+				}
+
+				break;
+
+			}
+
+		});
+
+	}
+
+	/**
+	 * 
+	 * RRectangle构造方法
+	 * 
+	 */
+
+	public RRectangle() {
+
+		super();
+
+		initialize();
+
+	}
+
+	/**
+	 * 
+	 * RRectangle构造方法
+	 * 
+	 * 
+	 * 
+	 * @param width
+	 * 
+	 *            矩形的宽
+	 * 
+	 * @param height
+	 * 
+	 *            矩形的长
+	 * 
+	 */
+
+	public RRectangle(double width, double height) {
+
+		super(width, height);
+
+		initialize();
+
+	}
+
+	/**
+	 * 
+	 * RRectangle构造方法
+	 * 
+	 * 
+	 * 
+	 * @param width
+	 * 
+	 *            矩形的宽
+	 * 
+	 * @param height
+	 * 
+	 *            矩形的长
+	 * 
+	 * @param text
+	 * 
+	 *            文本框
+	 * 
+	 */
+
+	public RRectangle(double width, double height, Text text) {
+
+		this(width, height);
+
+		this.text = text;
+
+		initialize();
+
+	}
+
+	/**
+	 * 
+	 * RRectangle构造方法
+	 * 
+	 * 
+	 * 
+	 * @param x
+	 * 
+	 *            矩形左上角的x坐标
+	 * 
+	 * @param y
+	 * 
+	 *            矩形左上角的y坐标
+	 * 
+	 * @param width
+	 * 
+	 *            矩形的宽
+	 * 
+	 * @param height
+	 * 
+	 *            矩形的长
+	 * 
+	 */
+
+	public RRectangle(double x, double y, double width, double height) {
+
+		super(x, y, width, height);
+	
+		initialize();
+
+	}
+
+	// getters & setters
+
+	public boolean isElected() {
+
+		return isElected;
+
+	}
+
+	public void setEelected(boolean isElected) {
+
+		this.isElected = isElected;
+
+	}
+
+	public Text getText() {
+
+		return text;
+
+	}
+
+	public void setText(Text text) {
+
+		this.text = text;
+
+	}
+
+	// public String getContent() {
+
+	// return content;
+
+	// }
+
+	//
+
+	// public void setContent(String content) {
+
+	// this.content = content;
+
+	// }
+
+	public int getType() {
+
+		return type;
+
+	}
+
+	public void setType(int type) {
+
+		this.type = type;
+
+	}
+
+	public Rectangle getControl() {
+		return control;
+	}
+
+	public void setControl(Rectangle control) {
+		this.control = control;
+	}
+
+}
