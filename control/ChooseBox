@@ -1,0 +1,267 @@
+package control;
+
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Shape;
+import symbols.RRectangle;
+
+public class ChooseBox extends Shape {
+	/**
+	 * 选择框主要以矩形呈现
+	 * 
+	 * @author minwo
+	 */
+	private double cBoxX;
+	private double cBoxY;
+	private double cBoxWidth;
+	private double cBoxHeight;
+	private double offset = 10;// 偏移量
+
+	private Line cBox[] = new Line[5];
+
+	// Pane pane;
+	Circle circles[] = new Circle[9];
+
+	public ChooseBox() {
+		// this.pane = pane;
+
+		for (int i = 0; i < 5; i++) {
+			cBox[i] = new Line();
+		}
+
+		for (int i = 0; i < 9; i++) {
+			circles[i] = new Circle();
+		}
+	}
+
+	/*
+	 * 表示要将操作框画出来offset为偏移量
+	 */
+	public void draw(double x, double y, double width, double height) {
+		cBoxX = x - offset;
+		cBoxY = y - offset;
+		cBoxWidth = width + offset * 2;
+		cBoxHeight = height + offset * 2;
+
+		// cBox.setX(cBoxX);
+		// cBox.setY(cBoxY);
+		// cBox.setWidth(cBoxWidth);
+		// cBox.setHeight(cBOxHeight);
+		// cBox.setStroke(Color.BLACK);
+		// cBox.setFill(null);
+
+		for (int i = 0; i < 5; i++) {
+			if (i == 4) {
+				cBox[i].setStartX(cBoxX + cBoxWidth / 2);
+				cBox[i].setStartY(cBoxY);
+				cBox[i].setEndX(cBoxX + cBoxWidth / 2);
+				cBox[i].setEndY(cBoxY - offset * 5);
+				// pane.getChildren().add(cBox[i]);
+				break;
+			}
+			if (i == 0 || i == 2 || i == 3) {
+				cBox[i].setStartX(cBoxX);
+			} else {
+				cBox[i].setStartX(cBoxX + cBoxWidth);
+			}
+
+			if (i == 0 || i == 3 || i == 1) {
+				cBox[i].setStartY(cBoxY);
+			} else {
+				cBox[i].setStartY(cBoxY + cBoxHeight);
+			}
+			if (i == 0 || i == 1 || i == 2) {
+				cBox[i].setEndX(cBoxX + cBoxWidth);
+			} else {
+				cBox[i].setEndX(cBoxX);
+			}
+			if (i == 1 || i == 2 || i == 3) {
+				cBox[i].setEndY(cBoxY + cBoxHeight);
+			} else {
+				cBox[i].setEndY(cBoxY);
+			}
+
+			// pane.getChildren().add(cBox[i]);
+
+		}
+
+		for (int i = 0; i < 9; i++) {
+			circles[i].setRadius(offset / 2);
+			circles[i].setFill(Color.WHITE);
+			circles[i].setStroke(Color.BLACK);
+			if (i == 0 || i == 3 || i == 5) { // 定x值
+				circles[i].setCenterX(cBoxX);
+			} else if (i == 1 || i == 6 || i == 8) {
+				circles[i].setCenterX(cBoxX + cBoxWidth / 2);
+			} else {
+				circles[i].setCenterX(cBoxX + cBoxWidth);
+			}
+			if (i < 3) { // 定y值
+				circles[i].setCenterY(cBoxY);
+			} else if (i < 5) {
+				circles[i].setCenterY(cBoxY + cBoxHeight / 2);
+			} else {
+				circles[i].setCenterY(cBoxY + cBoxHeight);
+			}
+			if (i == 8) {
+				circles[i].setCenterY(cBoxY - offset * 5);
+			}
+			// pane.getChildren().add(circles[i]);
+		}
+
+	}
+
+//	public double[] Zoom(RRectangle s) {
+//		double parameter[] = new double[4];
+//		circles[0].setOnMouseDragged(e -> {
+//			cBoxWidth = circles[0].getCenterX() - e.getX() + cBoxWidth;
+//			cBoxHeight = circles[0].getCenterY() - e.getY() + cBoxHeight;
+//			if (e.getX() < circles[2].getCenterX()) {// 因为此时的2的x值和7的y值是不变的
+//				cBoxX = e.getX();
+//			} else {
+//				cBoxX = circles[2].getCenterX();
+//				cBoxWidth = 0;
+//			}
+//			if (e.getY() < circles[7].getCenterY()) {
+//				cBoxY = e.getY();
+//			} else {
+//				cBoxY = circles[7].getCenterY();
+//				cBoxHeight = 0;
+//			}
+//			s.setX(cBoxX + offset);
+//			s.setY(cBoxY + offset);
+//			s.setWidth(cBoxWidth - offset * 2);
+//			s.setHeight(cBoxHeight - offset * 2);
+//			draw(cBoxX + offset, cBoxY + offset, cBoxWidth - offset * 2, cBoxHeight - offset * 2);// 倒推x,y,width,height
+//		});
+//
+//		circles[1].setOnMouseDragged(e -> {
+//			cBoxHeight = circles[1].getCenterY() - e.getY() + cBoxHeight;
+//			if (e.getY() < circles[7].getCenterY()) {
+//				cBoxY = e.getY();
+//			} else {
+//				cBoxY = circles[7].getCenterY();
+//				cBoxHeight = 0;
+//			}
+//			draw(cBoxX + offset, cBoxY + offset, cBoxWidth - offset * 2, cBoxHeight - offset * 2);// 倒推x,y,width,height
+//		});
+//		//
+//		circles[2].setOnMouseDragged(e -> {
+//			cBoxWidth = e.getX() - circles[2].getCenterX() + cBoxWidth;
+//			cBoxHeight = circles[2].getCenterY() - e.getY() + cBoxHeight;
+//			if (e.getX() < circles[0].getCenterX()) {
+//				cBoxWidth = 0;
+//			}
+//			if (e.getY() < circles[7].getCenterY()) {
+//				cBoxY = e.getY();
+//			} else {
+//				cBoxHeight = 0;
+//			}
+//			draw(cBoxX + offset, cBoxY + offset, cBoxWidth - offset * 2, cBoxHeight - offset * 2);// 倒推x,y,width,height
+//		});
+//		circles[3].setOnMouseDragged(e -> {
+//			cBoxWidth = circles[3].getCenterX() - e.getX() + cBoxWidth;
+//			if (e.getX() < circles[2].getCenterX()) {
+//				cBoxX = e.getX();
+//			} else {
+//				cBoxWidth = 0;
+//			}
+//			draw(cBoxX + offset, cBoxY + offset, cBoxWidth - offset * 2, cBoxHeight - offset * 2);// 倒推x,y,width,height
+//		});
+//
+//		circles[4].setOnMouseDragged(e -> {
+//			cBoxWidth = e.getX() - circles[4].getCenterX() + cBoxWidth;
+//			if (e.getX() < circles[0].getCenterX()) {
+//				cBoxWidth = 0;
+//			}
+//			draw(cBoxX + offset, cBoxY + offset, cBoxWidth - offset * 2, cBoxHeight - offset * 2);// 倒推x,y,width,height
+//		});
+//
+//		circles[5].setOnMouseDragged(e -> {
+//			cBoxWidth = circles[5].getCenterX() - e.getX() + cBoxWidth;
+//			cBoxHeight = e.getY() - circles[5].getCenterY() + cBoxHeight;
+//			if (e.getX() < circles[2].getCenterX()) {
+//				cBoxX = e.getX();
+//			} else {
+//				cBoxWidth = 0;
+//			}
+//			if (e.getY() < circles[2].getCenterY()) {
+//				cBoxHeight = 0;
+//			}
+//			draw(cBoxX + offset, cBoxY + offset, cBoxWidth - offset * 2, cBoxHeight - offset * 2);// 倒推x,y,width,height
+//
+//		});
+//
+//		circles[6].setOnMouseDragged(e -> {
+//			cBoxHeight = e.getY() - circles[6].getCenterY() + cBoxHeight;
+//			if (e.getY() < circles[0].getCenterY()) {
+//				cBoxHeight = 0;
+//			}
+//			draw(cBoxX + offset, cBoxY + offset, cBoxWidth - offset * 2, cBoxHeight - offset * 2);// 倒推x,y,width,height
+//
+//		});
+//
+//		circles[7].setOnMouseDragged(e -> {
+//			cBoxWidth = e.getX() - circles[7].getCenterX() + cBoxWidth;
+//			cBoxHeight = e.getY() - circles[7].getCenterY() + cBoxHeight;
+//			if (e.getX() < circles[0].getCenterX()) {
+//				cBoxWidth = 0;
+//			}
+//			if (e.getY() < circles[0].getCenterY()) {
+//				cBoxHeight = 0;
+//			}
+//			draw(cBoxX + offset, cBoxY + offset, cBoxWidth - offset * 2, cBoxHeight - offset * 2);// 倒推x,y,width,height
+//
+//		});
+//		parameter[0] = cBoxX + offset;
+//		parameter[1] = cBoxY + offset;
+//		parameter[2] = cBoxWidth - offset * 2;
+//		parameter[3] = cBoxHeight - offset * 2;
+//		return parameter;
+//	}
+	// public double[] Zoom() {
+	// double parameter[] = new double[4];
+	//
+	// for (int i =0; i < 9; i++) {
+	// circles[i].setOnMouseDragged(e->{
+	// if(i==0||i==3||i==5) {
+	// cBoxX=e.getX();
+	// }
+	// if(i==0||i==1||i==2) {
+	// cBoxY=e.getY();
+	// }
+	// if(i==0||i==2||i==3||i==5||i==7) {
+	// cBoxWidth = cBoxWidth + circles[i].getCenterX() - e.getX();
+	// }
+	// if(i==0||i==2||i==1||i==5||i==7) {
+	// cBoxHeight=cBoxHeight + circles[i].getCenterY()-e.getY();
+	// }
+	// });
+	// }
+	// parameter[0]=cBoxX;
+	// parameter[1]=cBoxY;
+	// parameter[2]=cBoxWidth;
+	// parameter[3]=cBoxHeight;
+	// return parameter;
+	//
+	// }
+
+	public Line[] getcBox() {
+		return cBox;
+	}
+
+	public Circle[] getCircles() {
+		return circles;
+	}
+
+	@Override
+	public com.sun.javafx.geom.Shape impl_configShape() {
+		return null;
+	}
+
+	public double getOffset() {
+		return offset;
+	}
+
+}
