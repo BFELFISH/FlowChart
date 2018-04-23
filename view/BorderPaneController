@@ -6,6 +6,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 import symbols.CCircle;
+import symbols.CurveRectangle;
 import symbols.Diamond;
 import symbols.LLine;
 import symbols.Parallelogram;
@@ -37,9 +38,9 @@ public class BorderPaneController {
 	private void drawRect() {
 		double width = 100;
 		double height = 40;
-		RRectangle rect = new RRectangle(width, height);
-		rect.setY((pane.getPrefHeight() - rect.getHeight()) / 2);
-		rect.setX((pane.getPrefWidth() - rect.getWidth()) / 2);
+		double x = (pane.getPrefWidth() - width) / 2;
+		double y = (pane.getPrefHeight() - height) / 2;
+		RRectangle rect = new RRectangle(x,y,width, height);
 		pane.getChildren().add(rect);
 	}
 
@@ -47,9 +48,9 @@ public class BorderPaneController {
 	private void drawRoundRect() {
 		double width = 100;
 		double height = 40;
-		RoundRectangle roundRect = new RoundRectangle(width, height);
-		roundRect.setY((pane.getPrefHeight() - roundRect.getHeight()) / 2);
-		roundRect.setX((pane.getPrefWidth() - roundRect.getWidth()) / 2);
+		double x = (pane.getPrefWidth() - width) / 2;
+		double y = (pane.getPrefHeight() - height) / 2;
+		RoundRectangle roundRect = new RoundRectangle(x,y,width, height);
 		pane.getChildren().add(roundRect);
 	}
 
@@ -94,6 +95,11 @@ public class BorderPaneController {
 
 	@FXML
 	private void drawCurveRect() {
-
+		double width = 120.0;
+		double height = 50.0;
+		double startX = (pane.getPrefWidth() - width) / 2;
+		double startY = (pane.getPrefHeight() - height) / 2;
+		CurveRectangle cr=new CurveRectangle(startX, startY, width, height);
+		pane.getChildren().add(cr);
 	}
 }
