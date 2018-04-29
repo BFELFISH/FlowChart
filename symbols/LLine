@@ -31,15 +31,19 @@ public class LLine extends Path{
 	 */
 	private void initialize() {
 		updatePath();
-		this.setStrokeWidth(1.3);
+		this.setStrokeWidth(1.5);
 		this.setCursor(Cursor.HAND);
 		this.setStroke(Color.BLACK);
 		this.setFill(Color.BLACK);
 		this.setOnMouseDragged(e -> {
-			startX = e.getX()-length/2 ;
-			startY = e.getY();
-			endX = startX + length;
-			endY = startY;
+			double x=(startX+endX)/2;
+			double y=(startY+endY)/2;
+			startX += e.getX()-x;
+			startY += e.getY()-y;
+			endX += e.getX()-x;
+			endY += e.getY()-y;
+//			endX = e.getX() ;
+//			endY = e.getY();
 			updatePath();
 		});
 	}
@@ -112,7 +116,7 @@ public class LLine extends Path{
 		this.startY = startY;
 		this.endX = endX;
 		this.endY = endY;
-		this.length = Math.sqrt((startY - startX) * (startY - startX) + (endX - endY) * (endX - endY));
+		this.length = Math.sqrt((endX - startX) * (endX - startX) + (endY - startY) * (endY - startY));
 		this.initialize();
 	}
 
