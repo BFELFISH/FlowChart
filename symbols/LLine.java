@@ -42,6 +42,7 @@ public class LLine extends Path implements Symbol, Serializable {
 	private static final long serialVersionUID = -5579908370661051831L;
 	private boolean isElected = false; // 选中状态，默认没被选中
 	transient private Text text = new Text(""); // 文本框
+	private boolean TextFieldIsEleted = false;
 	private double startX = 0;
 	private double startY = 0;
 	private double endX = 0;
@@ -89,6 +90,7 @@ public class LLine extends Path implements Symbol, Serializable {
 			endX += e.getX() - x;
 			endY += e.getY() - y;
 			updatePath();
+			
 		});
 	}
 
@@ -202,6 +204,7 @@ public class LLine extends Path implements Symbol, Serializable {
 		}else {
 			drawLine();
 		}
+		this.updateText();
 	}
 
 	// 计算
@@ -303,8 +306,8 @@ public class LLine extends Path implements Symbol, Serializable {
 
 	private void setTextCentered() {
 		double textWidth = Toolkit.getToolkit().getFontLoader().computeStringWidth(text.getText(), text.getFont());
-		text.setLayoutX(this.getX() - textWidth / 2);
-		text.setLayoutY(this.getY() + 5);
+		text.setLayoutX((this.getStartX()+this.getEndX()) / 2);
+		text.setLayoutY((this.getStartY() +this.getEndY())/2);
 	}
 
 	public double getStartX() {
@@ -471,13 +474,12 @@ public class LLine extends Path implements Symbol, Serializable {
 	@Override
 	public boolean isTextFieldIsEleted() {
 		// TODO Auto-generated method stub
-		return false;
+		return TextFieldIsEleted;
 	}
 
 	@Override
 	public void setTextFieldIsEleted(boolean textFieldIsEleted) {
-		// TODO Auto-generated method stub
-
+		this.TextFieldIsEleted=textFieldIsEleted;
 	}
 
 	@Override
@@ -508,14 +510,12 @@ public class LLine extends Path implements Symbol, Serializable {
 
 	@Override
 	public double getWidth() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.length;
 	}
 
 	@Override
 	public void setWidth(double width) {
-		// TODO Auto-generated method stub
-
+		this.length=width;
 	}
 
 	@Override
