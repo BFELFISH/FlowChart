@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.RenderingHints.Key;
 import java.lang.reflect.Array;
 import java.net.NetworkInterface;
 import java.util.ArrayList;
@@ -201,7 +202,7 @@ public class BorderPaneController {
 			System.out.println("isControlDown:" + isControlDown);
 			if (isControlDown) {// 多选
 				boxList.clear();
-				symbolList.get(index).setElected(true);//当前图形节点被选中，设为true
+				symbolList.get(index).setElected(true);// 当前图形节点被选中，设为true
 				for (Symbol symbol : symbolList) {
 					if (symbol.isElected())
 						drawBox(symbol);
@@ -209,16 +210,16 @@ public class BorderPaneController {
 			} else {// 单选
 				boxList.clear();
 				for (Symbol symbol : symbolList) {
-					symbol.setElected(false);//全部选中状态设为false
+					symbol.setElected(false);// 全部选中状态设为false
 				}
-				symbolList.get(index).setElected(true);//当前图形节点选中设为true
+				symbolList.get(index).setElected(true);// 当前图形节点选中设为true
 				drawBox(symbolList.get(index));
 			}
 			if (e.getClickCount() == 2) {// 双击出现文本框
 				textBox.setVisible(true);
 				symbolList.get(index).setTextFieldIsEleted(true);
 				drawTextField(symbolList.get(index));
-				symbolList.get(index).setTextFieldIsEleted(false);
+//				symbolList.get(index).setTextFieldIsEleted(false);
 			}
 		}
 		// caretaker.add(new Memento(symbolList));
@@ -278,20 +279,21 @@ public class BorderPaneController {
 			} else {
 				textBox.setPromptText("请输入文字");
 			}
-			// 时刻监听Textbox文本中的值的变化
-			textBox.textProperty().addListener(new ChangeListener<String>() {
-				@Override
-				public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-					symbol.setText(new Text(textBox.getText()));
+			
+			textBox.setOnKeyPressed(e -> {
+				if (e.getCode() == KeyCode.ENTER) {
+					textBox.setVisible(false);
 				}
+				Text buf = new Text(textBox.getText());
+				symbol.setText(buf);
+				repaint();
 			});
-
 		}
 	}
 
 	// 寻找鼠标所在位置是否点中某个图形节点
 	private int findClickedElement(Point2D p) {
-		//判断是否处于操作框
+		// 判断是否处于操作框
 		for (int i = 0; i < boxList.size(); i++) {
 			for (int j = 0; j < boxList.get(i).size(); j++) {
 				if (boxList.get(i).get(j).contains(p)) {
@@ -299,7 +301,7 @@ public class BorderPaneController {
 				}
 			}
 		}
-		//判断是否处于图形内
+		// 判断是否处于图形内
 		for (int i = 0; i < symbolList.size(); i++) {
 			if (symbolList.get(i).contains(p)) {
 				return i;
@@ -375,14 +377,14 @@ public class BorderPaneController {
 	 */
 	@FXML
 	private void paneKeyPressed(KeyEvent k) {
-		
+
 	}
-	
+
 	@FXML
 	private void delete(KeyEvent k) {
-		ArrayList<KeyCode> list=new ArrayList<>();
-		
-		if (k.getCode()==KeyCode.CONTROL) {
+		ArrayList<KeyCode> list = new ArrayList<>();
+
+		if (k.getCode() == KeyCode.CONTROL) {
 			isControlDown = true;
 			if (k.getCode() == KeyCode.A) {// 全选
 				boxList.clear();
@@ -392,13 +394,13 @@ public class BorderPaneController {
 				}
 				repaint();
 			}
-			
+
 		}
-		if  (k.getCode() == KeyCode.BACK_SPACE) {
+		if (k.getCode() == KeyCode.BACK_SPACE) {
 			boxList.clear();
-			LinkedList<Symbol> buf =new LinkedList<>();
+			LinkedList<Symbol> buf = new LinkedList<>();
 			for (Symbol symbol : symbolList) {
-				if(symbol.isElected())
+				if (symbol.isElected())
 					buf.add(symbol);
 			}
 			symbolList.removeAll(buf);
