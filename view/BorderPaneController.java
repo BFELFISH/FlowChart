@@ -219,7 +219,7 @@ public class BorderPaneController {
 				textBox.setVisible(true);
 				symbolList.get(index).setTextFieldIsEleted(true);
 				drawTextField(symbolList.get(index));
-//				symbolList.get(index).setTextFieldIsEleted(false);
+				// symbolList.get(index).setTextFieldIsEleted(false);
 			}
 		}
 		// caretaker.add(new Memento(symbolList));
@@ -266,9 +266,10 @@ public class BorderPaneController {
 				textBox.setLayoutY(symbol.getY() - symbol.getHeight() / 2);
 				textBox.setPrefWidth(symbol.getWidth() - 2 * symbol.getWidth() / 10);
 			} else if (symbol instanceof LLine) {
-				textBox.setLayoutX(symbol.getX());
-				textBox.setLayoutY(symbol.getY() - 20);
-				textBox.setPrefWidth(10);
+				LLine line =(LLine) symbol;
+				textBox.setLayoutX((line.getStartX()+line.getEndX())/2);
+				textBox.setLayoutY((line.getStartY()+line.getEndY())/2);
+				textBox.setPrefWidth(30);
 			} else {
 				textBox.setVisible(false);
 			}
@@ -279,7 +280,7 @@ public class BorderPaneController {
 			} else {
 				textBox.setPromptText("请输入文字");
 			}
-			
+
 			textBox.setOnKeyPressed(e -> {
 				if (e.getCode() == KeyCode.ENTER) {
 					textBox.setVisible(false);
