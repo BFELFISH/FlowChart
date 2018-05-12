@@ -115,14 +115,18 @@ public class LLine extends Path implements Symbol, Serializable {
 	private void drawElectBox() {
 		this.isElected = true;
 		cBox[0].setOnMouseDragged(e -> {
-			this.startX += e.getX() - cBox[0].getCenterX();
-			this.startY += e.getY() - cBox[0].getCenterY();
+//			this.startX += e.getX() - cBox[0].getCenterX();
+//			this.startY += e.getY() - cBox[0].getCenterY();
+			this.startX=e.getX();
+			this.startY=e.getY();
 			updatePath();
 			draw();
 		});
 		cBox[1].setOnMouseDragged(e -> {
-			this.endX += e.getX() - cBox[1].getCenterX();
-			this.endY += e.getY() - cBox[1].getCenterY();
+//			this.endX += e.getX() - cBox[1].getCenterX();
+//			this.endY += e.getY() - cBox[1].getCenterY();
+			this.endX=e.getX();
+			this.endY=e.getY();
 			updatePath();
 			draw();
 		});
