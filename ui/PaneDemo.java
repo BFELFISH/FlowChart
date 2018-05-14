@@ -28,7 +28,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
-
+import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Scale;
 
 import javafx.stage.Stage;
@@ -63,27 +63,6 @@ public class PaneDemo extends Application {
 
 		mainLayout = loader.load();
 		Scene scene = new Scene(mainLayout);
-		Pane pane = (Pane) mainLayout.getCenter();
-		RRectangle r = new RRectangle(100,100);
-		pane.getChildren().add(r);
-		if(r.isElected()) {
-			Line line[]=r.getcBox().getcBox();
-			for(Line l:line) {
-				pane.getChildren().add(l);
-			}
-			Circle circles[]=r.getcBox().getCircles();
-			for(Circle c:circles) {
-				pane.getChildren().add(c);
-			}
-		}
-		
-
-		Diamond d = new Diamond(100, 100,150,100);
-		pane.getChildren().add(d);
-		if(d.isElected()) {
-			
-		}
-		
 		primaryStage.setScene(scene);
 		primaryStage.show();
 

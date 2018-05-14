@@ -1,7 +1,5 @@
 package symbols;
 
-
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -17,15 +15,11 @@ import javafx.scene.effect.Light.Point;
 
 import javafx.scene.layout.Pane;
 
-
-
 import javafx.scene.paint.Color;
 
 import javafx.scene.shape.Circle;
 
 import javafx.scene.shape.Polygon;
-
-
 
 import javafx.scene.shape.Rectangle;
 
@@ -33,29 +27,25 @@ import javafx.scene.shape.Shape;
 
 import javafx.scene.text.Text;
 
-
-
 /**
-
  * 
-
+ * 
+ * 
  * Parrallelogram类继承Polygon多边形类
-
  * 
-
+ * 
+ * 
  * @author suisui
-
  *
-
  * 
-
  * 
-
+ * 
+ * 
+ * 
+ * 
  */
 
-
-
-public class Parallelogram extends Polygon implements Symbol,Serializable {
+public class Parallelogram extends Polygon implements Symbol, Serializable {
 
 	/**
 	 * 
@@ -64,7 +54,7 @@ public class Parallelogram extends Polygon implements Symbol,Serializable {
 
 	private boolean isElected = false; // 选中状态，默认没被选中
 
-	transient private Text text=new Text(""); // 文本框
+	transient private Text text = new Text(""); // 文本框
 
 	private boolean TextFieldIsEleted = false;
 
@@ -85,36 +75,24 @@ public class Parallelogram extends Polygon implements Symbol,Serializable {
 	private ArrayList<LLine> lines = new ArrayList<>();
 
 	/**
-
 	 * 
-
+	 * 
+	 * 
 	 * 私有函数，初始化图形的属性
-
 	 * 
-
+	 * 
+	 * 
 	 */
-
-
 
 	private void initialize() {
 
-
-
 		updatePoints();
-
-
 
 		this.setCursor(Cursor.HAND);
 
-
-
 		this.setStroke(Color.BLACK);
 
-
-
 		this.setFill(Color.WHITE);
-
-
 
 		this.setStrokeWidth(1.3);
 
@@ -146,11 +124,7 @@ public class Parallelogram extends Polygon implements Symbol,Serializable {
 
 		});
 
-
-
 	}
-
-
 
 	// 更新Text的位置
 
@@ -160,14 +134,12 @@ public class Parallelogram extends Polygon implements Symbol,Serializable {
 		text.setVisible(true);
 	}
 
-
-
 	/**
-
 	 *
-
+	 * 
+	 * 
 	 * 鼠标进入图形内时，显示图形边界
-
+	 * 
 	 */
 
 	private void showSymbolBorder() {
@@ -190,51 +162,31 @@ public class Parallelogram extends Polygon implements Symbol,Serializable {
 
 	}
 
-
-
 	/**
-
 	 * 
-
+	 * 
+	 * 
 	 * 私有函数，更新多边形的点集
-
 	 * 
-
+	 * 
+	 * 
 	 */
-
-
 
 	private void updatePoints() {
 
-
-
 		this.getPoints().clear();
-
-
 
 		points = new Double[] {
 
-
-
 				x, y,
-
-
 
 				x + height / Math.sqrt(3), y - height,
 
-
-
 				x + width, y - height,
-
-
 
 				x + width - height / Math.sqrt(3), y };
 
-
-
 	}
-
-
 
 	// 画出判断框
 
@@ -252,8 +204,6 @@ public class Parallelogram extends Polygon implements Symbol,Serializable {
 
 				this.setX(e.getX() - circles[0].getCenterX() + this.getX());
 
-
-
 			}
 
 			if (circles[7].getCenterY() - e.getY() <= this.getWidth() && circles[7].getCenterY() - e.getY() - 50 > 0) {// 因为平行四边形不对称
@@ -262,26 +212,19 @@ public class Parallelogram extends Polygon implements Symbol,Serializable {
 
 			}
 
-
-
 			cBox.draw(this.getX(), this.getY() - this.getHeight(), this.getWidth(), this.getHeight());
 
 			updatePoints();
 
 			this.getPoints().addAll(points);
-
-
-
+			this.updateText();
 		});
-
-
 
 		circles[1].setOnMouseDragged(e -> {
 
 			if (circles[7].getCenterY() - e.getY() - 50 >= 0 && circles[6].getCenterY() - e.getY() <= this.getWidth()) {
 
 				this.setHeight(this.getHeight() + circles[1].getCenterY() - e.getY());
-
 			}
 
 			cBox.draw(this.getX(), this.getY() - this.getHeight(), this.getWidth(), this.getHeight());
@@ -289,10 +232,8 @@ public class Parallelogram extends Polygon implements Symbol,Serializable {
 			updatePoints();
 
 			this.getPoints().addAll(points);
-
+			this.updateText();
 		});
-
-
 
 		circles[2].setOnMouseDragged(e -> {
 
@@ -313,10 +254,8 @@ public class Parallelogram extends Polygon implements Symbol,Serializable {
 			updatePoints();
 
 			this.getPoints().addAll(points);
-
+			this.updateText();
 		});
-
-
 
 		circles[3].setOnMouseDragged(e -> {
 
@@ -333,10 +272,8 @@ public class Parallelogram extends Polygon implements Symbol,Serializable {
 			updatePoints();
 
 			this.getPoints().addAll(points);
-
+			this.updateText();
 		});
-
-
 
 		circles[4].setOnMouseDragged(e -> {
 
@@ -351,10 +288,8 @@ public class Parallelogram extends Polygon implements Symbol,Serializable {
 			updatePoints();
 
 			this.getPoints().addAll(points);
-
+			this.updateText();
 		});
-
-
 
 		circles[5].setOnMouseDragged(e -> {
 
@@ -379,10 +314,8 @@ public class Parallelogram extends Polygon implements Symbol,Serializable {
 			updatePoints();
 
 			this.getPoints().addAll(points);
-
+			this.updateText();
 		});
-
-
 
 		circles[6].setOnMouseDragged(e -> {
 
@@ -399,17 +332,14 @@ public class Parallelogram extends Polygon implements Symbol,Serializable {
 			updatePoints();
 
 			this.getPoints().addAll(points);
-
+			this.updateText();
 		});
-
-
 
 		circles[7].setOnMouseDragged(e -> {
 
 			if (e.getX() - circles[0].getCenterX() > 50 + this.getHeight()) {
 
 				this.setWidth(e.getX() - circles[7].getCenterX() + this.getWidth());
-
 			}
 
 			if (e.getY() - circles[0].getCenterY() <= this.getWidth() && e.getY() - circles[0].getCenterY() - 50 > 0) {
@@ -417,7 +347,6 @@ public class Parallelogram extends Polygon implements Symbol,Serializable {
 				this.setY(e.getY() - circles[7].getCenterY() + this.getY());
 
 				this.setHeight(e.getY() - circles[7].getCenterY() + this.getHeight());
-
 			}
 
 			cBox.draw(this.getX(), this.getY() - this.getHeight(), this.getWidth(), this.getHeight());
@@ -425,118 +354,84 @@ public class Parallelogram extends Polygon implements Symbol,Serializable {
 			updatePoints();
 
 			this.getPoints().addAll(points);
-
+			this.updateText();
 		});
 
 		cBox.draw(this.getX(), this.getY() - this.getHeight(), this.getWidth(), this.getHeight());
-
-
-
 	}
 
-
-
 	/**
-
 	 * 
-
+	 * 
+	 * 
 	 * Parallelogram构造函数
-
 	 * 
-
+	 * 
+	 * 
 	 * @param x
-
+	 * 
 	 *            平行四边形左下角的x坐标
-
 	 * 
-
+	 * 
+	 * 
 	 * @param y
-
+	 * 
 	 *            平行四边形左下角的y坐标
-
 	 * 
-
+	 * 
+	 * 
 	 * @param width
-
+	 * 
 	 *            平行四边形的长
-
 	 * 
-
+	 * 
+	 * 
 	 * @param height
-
-
-	 *            平行四边形的宽
-
 	 * 
-
+	 * 
+	 *            平行四边形的宽
+	 * 
+	 * 
+	 * 
 	 */
 
+	public Parallelogram() {
 
+	}
 
 	public Parallelogram(double x, double y, double width, double height) {
 
-
-
 		this.x = x;
-
-
 
 		this.y = y;
 
-
-
 		this.width = width;
-
-
 
 		this.height = height;
 
-
-
 		this.initialize();
-
-
 
 		super.getPoints().addAll(points);
 
-
-
 	}
-
-
 
 	public boolean isElected() {
 
-
-
 		return isElected;
 
-
-
 	}
-
-
 
 	public void setElected(boolean isElected) {
 
-
-
 		this.isElected = isElected;
 
-
-
 	}
-
-
 
 	public Text getText() {
 
 		return text;
 
-
 	}
-
-
 
 	public void setText(Text text) {
 		this.text = text;
@@ -545,113 +440,63 @@ public class Parallelogram extends Polygon implements Symbol,Serializable {
 
 	private void setTextCencered() {
 		double width = Toolkit.getToolkit().getFontLoader().computeStringWidth(text.getText(), text.getFont());
-		text.setLayoutX(this.getX()+this.getWidth()/2-width/2);
-		text.setLayoutY(this.getY()-this.getHeight()/2+5);
+		text.setLayoutX(this.getX() + this.getWidth() / 2 - width / 2);
+		text.setLayoutY(this.getY() - this.getHeight() / 2 + 5);
 	}
 
 	public double getX() {
 
-
-
 		return x;
 
-
-
 	}
-
-
 
 	public void setX(double x) {
 
-
-
 		this.x = x;
 
-
-
 	}
-
-
 
 	public double getY() {
 
-
-
 		return y;
 
-
-
 	}
-
-
 
 	public void setY(double y) {
 
-
-
 		this.y = y;
 
-
-
 	}
-
-
 
 	public double getWidth() {
 
-
-
 		return width;
 
-
-
 	}
-
-
 
 	public void setWidth(double width) {
 
-
-
 		this.width = width;
 
-
-
 	}
-
-
 
 	public double getHeight() {
 
-
-
 		return height;
 
-
-
 	}
-
-
 
 	public void setHeight(double height) {
 
-
-
 		this.height = height;
 
-
-
 	}
-
-
 
 	public ChooseBox getcBox() {
 
 		return cBox;
 
 	}
-
-
 
 	@Override
 
@@ -663,8 +508,6 @@ public class Parallelogram extends Polygon implements Symbol,Serializable {
 
 	}
 
-
-
 	@Override
 
 	public boolean remove(Symbol symbol) {
@@ -674,8 +517,6 @@ public class Parallelogram extends Polygon implements Symbol,Serializable {
 		return false;
 
 	}
-
-
 
 	@Override
 
@@ -687,53 +528,51 @@ public class Parallelogram extends Polygon implements Symbol,Serializable {
 
 	}
 
-
-
-//	@Override
-//
-//	public Symbol clone() {
-//
-//		Parallelogram p = new Parallelogram(x, y, width, height);
-//
-//		p.updatePoints();
-//
-//		p.setCursor(Cursor.HAND);
-//
-//		p.setStroke(Color.BLACK);
-//
-//		p.setFill(Color.WHITE);
-//
-//		p.setStrokeWidth(1.3);
-//
-//		p.showSymbolBorder();
-//
-//		p.setOnMouseClicked(e -> {
-//
-//			p.isElected = true;
-//
-//			p.drawElectBox();
-//
-//		});
-//
-//		p.setOnMouseDragged(e -> {
-//
-//			p.drawElectBox();
-//
-//			p.setX(e.getX() - p.getWidth() / 2);
-//
-//			p.setY(e.getY() + p.getHeight() / 2);
-//
-//			p.updatePoints();
-//
-//			p.getPoints().addAll(points);
-//
-//
-//
-//		});
-//
-//		return p;
-//
-//	}
+	// @Override
+	//
+	// public Symbol clone() {
+	//
+	// Parallelogram p = new Parallelogram(x, y, width, height);
+	//
+	// p.updatePoints();
+	//
+	// p.setCursor(Cursor.HAND);
+	//
+	// p.setStroke(Color.BLACK);
+	//
+	// p.setFill(Color.WHITE);
+	//
+	// p.setStrokeWidth(1.3);
+	//
+	// p.showSymbolBorder();
+	//
+	// p.setOnMouseClicked(e -> {
+	//
+	// p.isElected = true;
+	//
+	// p.drawElectBox();
+	//
+	// });
+	//
+	// p.setOnMouseDragged(e -> {
+	//
+	// p.drawElectBox();
+	//
+	// p.setX(e.getX() - p.getWidth() / 2);
+	//
+	// p.setY(e.getY() + p.getHeight() / 2);
+	//
+	// p.updatePoints();
+	//
+	// p.getPoints().addAll(points);
+	//
+	//
+	//
+	// });
+	//
+	// return p;
+	//
+	// }
 	public Symbol clone() {
 		try {
 			return MyUtil.clone(this);
@@ -743,7 +582,6 @@ public class Parallelogram extends Polygon implements Symbol,Serializable {
 		}
 		return null;
 	}
-
 
 	@Override
 
@@ -755,19 +593,13 @@ public class Parallelogram extends Polygon implements Symbol,Serializable {
 
 	}
 
-
-
 	@Override
 
 	public void setInLine(LLine line) {
 
 		// TODO Auto-generated method stub
 
-
-
 	}
-
-
 
 	@Override
 
@@ -779,19 +611,13 @@ public class Parallelogram extends Polygon implements Symbol,Serializable {
 
 	}
 
-
-
 	@Override
 
 	public void setOutLine(LLine line) {
 
 		// TODO Auto-generated method stub
 
-
-
 	}
-
-
 
 	@Override
 
@@ -803,8 +629,6 @@ public class Parallelogram extends Polygon implements Symbol,Serializable {
 
 	}
 
-
-
 	@Override
 
 	public boolean canAddOutLine() {
@@ -814,8 +638,6 @@ public class Parallelogram extends Polygon implements Symbol,Serializable {
 		return false;
 
 	}
-
-
 
 	@Override
 
@@ -827,23 +649,17 @@ public class Parallelogram extends Polygon implements Symbol,Serializable {
 
 	}
 
-
-
 	public boolean isTextFieldIsEleted() {
 
 		return TextFieldIsEleted;
 
 	}
 
-
-
 	public void setTextFieldIsEleted(boolean textFieldIsEleted) {
 
 		TextFieldIsEleted = textFieldIsEleted;
 
 	}
-
-
 
 	@Override
 
@@ -854,6 +670,7 @@ public class Parallelogram extends Polygon implements Symbol,Serializable {
 		return null;
 
 	}
+
 	@Override
 	public ArrayList<LLine> getLines() {
 		return this.lines;
@@ -861,9 +678,7 @@ public class Parallelogram extends Polygon implements Symbol,Serializable {
 
 	@Override
 	public void setLines(ArrayList<LLine> lines) {
-		this.lines=lines;
+		this.lines = lines;
 	}
-
-
 
 }

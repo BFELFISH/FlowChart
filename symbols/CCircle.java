@@ -104,7 +104,9 @@ public class CCircle extends Circle implements Symbol,Serializable{
 		initialize();
 
 	}
-
+public CCircle() {
+	
+}
 	/**
 	 * 画出操作框
 	 */
@@ -359,7 +361,7 @@ public class CCircle extends Circle implements Symbol,Serializable{
 
 	@Override
 	public boolean isTextFieldIsEleted() {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
@@ -376,22 +378,22 @@ public class CCircle extends Circle implements Symbol,Serializable{
 
 	@Override
 	public double getX() {
-		return this.getLayoutX();
+		return this.getCenterX();
 	}
 
 	@Override
 	public void setX(double x) {
-		this.setLayoutX(x);
+		this.setCenterX(x);
 	}
 
 	@Override
 	public double getY() {
-		return this.getLayoutY();
+		return this.getCenterY();
 	}
 
 	@Override
 	public void setY(double y) {
-		this.setLayoutY(y);
+		this.setCenterY(y);
 	}
 
 	@Override

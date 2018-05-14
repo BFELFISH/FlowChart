@@ -239,6 +239,10 @@ public class LLine extends Path implements Symbol, Serializable {
 
 	}
 
+	
+	public LLine() {
+		
+	}
 	/**
 	 * 
 	 * LLine构造函数
@@ -424,7 +428,7 @@ public class LLine extends Path implements Symbol, Serializable {
 		try {
 			return MyUtil.clone(this);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return null;

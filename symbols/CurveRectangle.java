@@ -147,8 +147,6 @@ public class CurveRectangle extends Path implements Symbol,Serializable{
 
 			drawElectBox();
 
-			this.updateText();
-
 		});
 
 		this.setOnMouseDragged(e -> {
@@ -162,7 +160,6 @@ public class CurveRectangle extends Path implements Symbol,Serializable{
 			updatePath();
 
 			this.updateText();
-
 		});
 
 	}
@@ -272,7 +269,9 @@ public class CurveRectangle extends Path implements Symbol,Serializable{
 
 	}
 
-
+	public CurveRectangle() {
+		
+	}
 
 	public CurveRectangle(double x, double y, double width, double height) {
 
@@ -309,33 +308,21 @@ public class CurveRectangle extends Path implements Symbol,Serializable{
 		this.isElected = true;
 
 		Circle circles[] = this.cBox.getCircles();
-
 		circles[0].setOnMouseDragged(e -> {
-
 			if (e.getX() < circles[7].getCenterX()) {
-
 				this.setX(e.getX() - circles[0].getCenterX() + this.getX());
-
 				this.setWidth(circles[0].getCenterX() - e.getX() + this.getWidth());
-
-
-
 			}
 
 			if (e.getY() < circles[7].getCenterY()) {
-
-
-
 				this.setHeight(circles[0].getCenterY() - e.getY() + this.getHeight());
-
+			
 			}
 
 			updatePath();
 
 			cBox.draw(this.getX(), this.getY() - this.getHeight(), this.getWidth(), this.getHeight());
-
-
-
+			this.updateText();
 		});
 
 
@@ -344,16 +331,14 @@ public class CurveRectangle extends Path implements Symbol,Serializable{
 
 			if (e.getY() < circles[6].getCenterY()) {
 
-
-
 				this.setHeight(circles[1].getCenterY() - e.getY() + this.getHeight());
-
+			
 			}
 
 			updatePath();
 
 			cBox.draw(this.getX(), this.getY() - this.getHeight(), this.getWidth(), this.getHeight());
-
+			this.updateText();
 		});
 
 
@@ -363,19 +348,19 @@ public class CurveRectangle extends Path implements Symbol,Serializable{
 			if (e.getX() > circles[5].getCenterX()) {
 
 				this.setWidth(e.getX() - circles[2].getCenterX() + this.getWidth());
-
+			
 			}
 
 			if (e.getY() < circles[5].getCenterY()) {
 
 				this.setHeight(circles[2].getCenterY() - e.getY() + this.getHeight());
-
+				
 			}
 
 			updatePath();
 
 			cBox.draw(this.getX(), this.getY() - this.getHeight(), this.getWidth(), this.getHeight());
-
+			this.updateText();
 		});
 
 
@@ -387,13 +372,12 @@ public class CurveRectangle extends Path implements Symbol,Serializable{
 				this.setX(e.getX() - circles[3].getCenterX() + this.getX());
 
 				this.setWidth(circles[3].getCenterX() - e.getX() + this.getWidth());
-
 			}
 
 			updatePath();
 
 			cBox.draw(this.getX(), this.getY() - this.getHeight(), this.getWidth(), this.getHeight());
-
+			this.updateText();
 		});
 
 
@@ -403,13 +387,13 @@ public class CurveRectangle extends Path implements Symbol,Serializable{
 			if (e.getX() > circles[3].getCenterX()) {
 
 				this.setWidth(e.getX() - circles[4].getCenterX() + this.getWidth());
-
+			
 			}
 
 			updatePath();
 
 			cBox.draw(this.getX(), this.getY() - this.getHeight(), this.getWidth(), this.getHeight());
-
+			this.updateText();
 		});
 
 
@@ -421,7 +405,6 @@ public class CurveRectangle extends Path implements Symbol,Serializable{
 				this.setX(e.getX() - circles[5].getCenterX() + this.getX());
 
 				this.setWidth(circles[5].getCenterX() - e.getX() + this.getWidth());
-
 			}
 
 			if (e.getY() > circles[2].getCenterY()) {
@@ -429,13 +412,12 @@ public class CurveRectangle extends Path implements Symbol,Serializable{
 				this.setY(e.getY() - circles[5].getCenterY() + this.getY());
 
 				this.setHeight(e.getY() - circles[5].getCenterY() + this.getHeight());
-
 			}
 
 			updatePath();
 
 			cBox.draw(this.getX(), this.getY() - this.getHeight(), this.getWidth(), this.getHeight());
-
+			this.updateText();
 		});
 
 
@@ -447,13 +429,12 @@ public class CurveRectangle extends Path implements Symbol,Serializable{
 				this.setY(e.getY() - circles[6].getCenterY() + this.getY());
 
 				this.setHeight(e.getY() - circles[6].getCenterY() + this.getHeight());
-
 			}
 
 			updatePath();
 
 			cBox.draw(this.getX(), this.getY() - this.getHeight(), this.getWidth(), this.getHeight());
-
+			this.updateText();
 		});
 
 
@@ -461,27 +442,18 @@ public class CurveRectangle extends Path implements Symbol,Serializable{
 		circles[7].setOnMouseDragged(e -> {
 
 			if (e.getX() > circles[0].getCenterX()) {
-
 				this.setWidth(e.getX() - circles[7].getCenterX() + this.getWidth());
-
 			}
 
 			if (e.getY() > circles[0].getCenterY()) {
-
 				this.setY(e.getY() - circles[7].getCenterY() + this.getY());
-
 				this.setHeight(e.getY() - circles[7].getCenterY() + this.getHeight());
-
 			}
-
 			updatePath();
-
 			cBox.draw(this.getX(), this.getY() - this.getHeight(), this.getWidth(), this.getHeight());
-
 		});
-
 		cBox.draw(this.getX(), this.getY() - this.getHeight(), this.getWidth(), this.getHeight());
-
+		this.updateText();
 	}
 
 

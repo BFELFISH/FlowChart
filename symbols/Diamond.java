@@ -270,7 +270,9 @@ public class Diamond extends Polygon implements Symbol,Serializable {
 
 	 */
 
-
+	public Diamond() {
+		
+	}
 
 	public Diamond(double x, double y, double width, double height) {
 
@@ -323,27 +325,23 @@ public class Diamond extends Polygon implements Symbol,Serializable {
 				this.setHeight(circles[0].getCenterY() - e.getY() + this.getHeight());
 
 				if (e.getX() < circles[2].getCenterX()) {// 因为此时的2的x值和7的y值是不变的
-
 					this.setX(e.getX() + cBox.getOffset());
-
 				} else {
 
 					this.setX(circles[2].getCenterX());
-
 					this.setWidth(0);
-
 				}
 
 				if (e.getY() < circles[7].getCenterY()) {
 
 					this.setY(e.getY() + cBox.getOffset() + this.getHeight() / 2);
-
+				
 				} else {
 
 					this.setY(circles[7].getCenterY() + cBox.getOffset());
 
 					this.setHeight(0);
-
+				
 				}
 
 				updatePoints();
@@ -351,7 +349,7 @@ public class Diamond extends Polygon implements Symbol,Serializable {
 				this.getPoints().addAll(points);
 
 				cBox.draw(this.getX(), this.getY() - this.getHeight() / 2, this.getWidth(), this.getHeight());
-
+				this.updateText();
 			});
 
 
@@ -363,13 +361,13 @@ public class Diamond extends Polygon implements Symbol,Serializable {
 				if (e.getY() < circles[7].getCenterY()) {
 
 					this.setY(e.getY() + cBox.getOffset() + this.getHeight() / 2);
-
+				
 				} else {
 
 					this.setY(circles[7].getCenterY() + cBox.getOffset() + this.getHeight() / 2);
 
 					this.setHeight(0);
-
+		
 				}
 
 				updatePoints();
@@ -377,7 +375,7 @@ public class Diamond extends Polygon implements Symbol,Serializable {
 				this.getPoints().addAll(points);
 
 				cBox.draw(this.getX(), this.getY() - this.getHeight() / 2, this.getWidth(), this.getHeight());
-
+				this.updateText();
 			});
 
 
@@ -391,17 +389,17 @@ public class Diamond extends Polygon implements Symbol,Serializable {
 				if (e.getX() < circles[0].getCenterX()) {
 
 					this.setWidth(0);
-
-				}
+		
+				}	
 
 				if (e.getY() < circles[7].getCenterY()) {
 
 					this.setY(e.getY() + cBox.getOffset() + this.getHeight() / 2);
-
+					
 				} else {
 
 					this.setHeight(0);
-
+				
 				}
 
 				updatePoints();
@@ -409,7 +407,7 @@ public class Diamond extends Polygon implements Symbol,Serializable {
 				this.getPoints().addAll(points);
 
 				cBox.draw(this.getX(), this.getY() - this.getHeight() / 2, this.getWidth(), this.getHeight());
-
+				this.updateText();
 			});
 
 			circles[3].setOnMouseDragged(e -> {
@@ -423,7 +421,6 @@ public class Diamond extends Polygon implements Symbol,Serializable {
 				} else {
 
 					this.setWidth(0);
-
 				}
 
 				updatePoints();
@@ -431,7 +428,7 @@ public class Diamond extends Polygon implements Symbol,Serializable {
 				this.getPoints().addAll(points);
 
 				cBox.draw(this.getX(), this.getY() - this.getHeight() / 2, this.getWidth(), this.getHeight());
-
+				this.updateText();
 			});
 
 
@@ -443,7 +440,6 @@ public class Diamond extends Polygon implements Symbol,Serializable {
 				if (e.getX() < circles[0].getCenterX()) {
 
 					this.setWidth(0);
-
 				}
 
 				updatePoints();
@@ -451,7 +447,7 @@ public class Diamond extends Polygon implements Symbol,Serializable {
 				this.getPoints().addAll(points);
 
 				cBox.draw(this.getX(), this.getY() - this.getHeight() / 2, this.getWidth(), this.getHeight());
-
+				this.updateText();
 			});
 
 
@@ -467,17 +463,17 @@ public class Diamond extends Polygon implements Symbol,Serializable {
 				if (e.getX() < circles[2].getCenterX()) {
 
 					this.setX(e.getX() + cBox.getOffset());
-
+					
 				} else {
 
 					this.setWidth(0);
-
+				
 				}
 
 				if (e.getY() < circles[2].getCenterY()) {
 
 					this.setHeight(0);
-
+			
 				}
 
 				updatePoints();
@@ -485,65 +481,43 @@ public class Diamond extends Polygon implements Symbol,Serializable {
 				this.getPoints().addAll(points);
 
 				cBox.draw(this.getX(), this.getY() - this.getHeight() / 2, this.getWidth(), this.getHeight());
-
+				this.updateText();
 			});
 
 
 
 			circles[6].setOnMouseDragged(e -> {
-
 				this.setHeight(e.getY() - circles[6].getCenterY() + this.getHeight());
-
 				this.setY((e.getY() - circles[6].getCenterY()) / 2 + this.getY()); // 变动的height/2就是左边点要变动的距离
-
 				if (e.getY() < circles[0].getCenterY()) {
-
 					this.setHeight(0);
-
 				}
-
 				updatePoints();
-
 				this.getPoints().addAll(points);
-
 				cBox.draw(this.getX(), this.getY() - this.getHeight() / 2, this.getWidth(), this.getHeight());
-
+				this.updateText();
 			});
 
 
 
 			circles[7].setOnMouseDragged(e -> {
-
 				this.setWidth(e.getX() - circles[7].getCenterX() + this.getWidth());
-
 				this.setHeight(e.getY() - circles[7].getCenterY() + this.getHeight());
-
 				this.setY((e.getY() - circles[7].getCenterY()) / 2 + this.getY()); // 同样因为左边的点的变动是height的一半
-
 				if (e.getX() < circles[0].getCenterX()) {
-
 					this.setWidth(0);
-
 				}
-
 				if (e.getY() < circles[0].getCenterY()) {
-
 					this.setHeight(0);
-
-				}
+				}	
 
 				updatePoints();
-
 				this.getPoints().addAll(points);
-
 				cBox.draw(this.getX(), this.getY() - this.getHeight() / 2, this.getWidth(), this.getHeight());
-
+				this.updateText();
 			});
-
 			cBox.draw(this.getX(), this.getY() - this.getHeight() / 2, this.getWidth(), this.getHeight());
-
-
-
+			
 		}
 
 

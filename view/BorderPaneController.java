@@ -62,86 +62,88 @@ public class BorderPaneController {
 
 	private boolean isElectedSymbols = false;// 当前是否有被选中的元素
 	private boolean isControlDown = false;
+	private boolean isDoubleClicked = false;// 是否双击左侧图形栏中的图形
 	private TextField textBox = new TextField("");
 	private LinkedList<Symbol> symbolList = new LinkedList<Symbol>();
 	private LinkedList<LinkedList<Shape>> boxList = new LinkedList<LinkedList<Shape>>();
 	private LinkedList<LLine> lineList = new LinkedList<LLine>();
 	private LinkedList<LinkedList<Symbol>> caretaker = new LinkedList<>();
+	private Symbol bufferSymbol;
 	// private Caretaker caretaker = new Caretaker();
 
 	@FXML
-	private void drawRect() {
+	private void drawRect(MouseEvent e) {
 		textBox.setVisible(false);
-		double width = 100;
-		double height = 40;
-		double x = (pane.getPrefWidth() - width) / 2;
-		double y = (pane.getPrefHeight() - height) / 2;
-		RRectangle rect = new RRectangle(x, y, width, height);
-		// symbolList.add(rect.clone());
-		symbolList.add(rect);
-		// caretaker.add(new Memento(symbolList));
-		repaint();
+		DrawSymbol draw = new DrawSymbol(pane);
+		RRectangle rect=new RRectangle();
+		bufferSymbol=rect;
+		if (e.getClickCount() == 1) {
+			isDoubleClicked = false;
+		} else {
+			isDoubleClicked = true;
+			symbolList.add(draw.addSymbol(bufferSymbol, isDoubleClicked, e.getX(), e.getY()));
+			repaint();
+		}
 	}
 
 	@FXML
-	private void drawRoundRect() {
+	private void drawRoundRect(MouseEvent e) {
 		textBox.setVisible(false);
-		double width = 100;
-		double height = 40;
-		double x = (pane.getPrefWidth() - width) / 2;
-		double y = (pane.getPrefHeight() - height) / 2;
-		RoundRectangle roundRect = new RoundRectangle(x, y, width, height);
-		// symbolList.add(roundRect.clone());
-		symbolList.add(roundRect);
-		// caretaker.add(new Memento(symbolList));
-		// pane.getChildren().add(roundRect);
-		repaint();
+		DrawSymbol draw = new DrawSymbol(pane);
+		RoundRectangle roundRect=new RoundRectangle();
+		bufferSymbol=roundRect;
+		if (e.getClickCount() == 1) {
+			isDoubleClicked = false;
+		} else {
+			isDoubleClicked = true;
+			symbolList.add(draw.addSymbol(bufferSymbol, isDoubleClicked, e.getX(), e.getY()));
+			repaint();
+		}
 	}
 
 	@FXML
-	private void drawDiamond() {
+	private void drawDiamond(MouseEvent e) {
 		textBox.setVisible(false);
-		double width = 100.0;
-		double height = 50.0;
-		double x = (pane.getPrefWidth() - width) / 2;
-		double y = (pane.getPrefHeight() - height) / 2;
-		Diamond d = new Diamond(x, y, width, height);
-		// symbolList.add(d.clone());
-		symbolList.add(d);
-		// caretaker.add(new Memento(symbolList));
-		// pane.getChildren().add(d);
-		repaint();
+		DrawSymbol draw = new DrawSymbol(pane);
+		Diamond diamond=new Diamond();
+		bufferSymbol=diamond;
+		if (e.getClickCount() == 1) {
+			isDoubleClicked = false;
+		} else {
+			isDoubleClicked = true;
+			symbolList.add(draw.addSymbol(bufferSymbol, isDoubleClicked, e.getX(), e.getY()));
+			repaint();
+		}
 	}
 
 	@FXML
-	private void drawParallelogram() {
+	private void drawParallelogram(MouseEvent e) {
 		textBox.setVisible(false);
-		double width = 115.0;
-		double height = 40.0;
-		double x = (pane.getPrefWidth() - width) / 2;
-		double y = (pane.getPrefHeight() - height) / 2;
-		Parallelogram p = new Parallelogram(x, y, width, height);
-		// symbolList.add(p.clone());
-		symbolList.add(p);
-		// caretaker.add(new Memento(symbolList));
-		// pane.getChildren().add(p);
-		repaint();
+		DrawSymbol draw = new DrawSymbol(pane);
+		Parallelogram p=new Parallelogram();
+		bufferSymbol=p;
+		if (e.getClickCount() == 1) {
+			isDoubleClicked = false;
+		} else {
+			isDoubleClicked = true;
+			symbolList.add(draw.addSymbol(bufferSymbol, isDoubleClicked, e.getX(), e.getY()));
+			repaint();
+		}
 	}
 
 	@FXML
-	private void drawLine() {
+	private void drawLine(MouseEvent e) {
 		textBox.setVisible(false);
-		double startX = (pane.getPrefWidth() - 100) / 2;
-		double startY = (pane.getPrefHeight() - 100) / 2;
-		double length = 150;
-		double endX = startX + length;
-		double endY = startY;
-		LLine l = new LLine(startX, startY, endX, endY);
-		// symbolList.add(l.clone());
-		symbolList.add(l);
-		// caretaker.add(new Memento(symbolList));
-		// pane.getChildren().add(l);
-		repaint();
+		DrawSymbol draw = new DrawSymbol(pane);
+		LLine line=new LLine();
+		bufferSymbol=line;
+		if (e.getClickCount() == 1) {
+			isDoubleClicked = false;
+		} else {
+			isDoubleClicked = true;
+			symbolList.add(draw.addSymbol(bufferSymbol, isDoubleClicked, e.getX(), e.getY()));
+			repaint();
+		}
 	}
 
 	private void drawLine1(Symbol symbol) {
@@ -150,37 +152,45 @@ public class BorderPaneController {
 	}
 
 	@FXML
-	private void drawCircle() {
+	private void drawCircle(MouseEvent e) {
 		textBox.setVisible(false);
-		double radius = 10;
-		double centerX = (pane.getPrefWidth() - radius) / 2;
-		double centerY = (pane.getPrefHeight() - radius) / 2;
-		CCircle c = new CCircle(centerX, centerY, radius);
-		// symbolList.add(c.clone());
-		symbolList.add(c);
-		// caretaker.add(new Memento(symbolList));
-		// pane.getChildren().add(c);
-		repaint();
-
+		DrawSymbol draw = new DrawSymbol(pane);
+		CCircle circle=new CCircle();
+		bufferSymbol=circle;
+		if (e.getClickCount() == 1) {
+			isDoubleClicked = false;
+		} else {
+			isDoubleClicked = true;
+			symbolList.add(draw.addSymbol(bufferSymbol, isDoubleClicked, e.getX(), e.getY()));
+			repaint();
+		}
 	}
 
 	@FXML
-	private void drawCurveRect() {
+	private void drawCurveRect(MouseEvent e) {
 		textBox.setVisible(false);
-		double width = 120.0;
-		double height = 50.0;
-		double startX = (pane.getPrefWidth() - width) / 2;
-		double startY = (pane.getPrefHeight() - height) / 2;
-		CurveRectangle cr = new CurveRectangle(startX, startY, width, height);
-		// symbolList.add(cr.clone());
-		symbolList.add(cr);
-		// caretaker.add(new Memento(symbolList));
-		// pane.getChildren().add(cr);
-		repaint();
+		DrawSymbol draw = new DrawSymbol(pane);
+		CurveRectangle cr=new CurveRectangle();
+		bufferSymbol=cr;
+		if (e.getClickCount() == 1) {
+			isDoubleClicked = false;
+		} else {
+			isDoubleClicked = true;
+			symbolList.add(draw.addSymbol(bufferSymbol, isDoubleClicked, e.getX(), e.getY()));
+			repaint();
+		}
 	}
 
 	@FXML
 	private void paneClicked(MouseEvent e) {
+		DrawSymbol draw = new DrawSymbol(pane);
+		if (!isDoubleClicked) {
+			textBox.setVisible(false);
+			symbolList.add(draw.addSymbol(bufferSymbol, isDoubleClicked, e.getX(), e.getY()));
+			isDoubleClicked = true;
+			repaint();
+		}
+		
 		pane.requestFocus();
 		textBox.setVisible(false);
 		double x = e.getX();
@@ -266,9 +276,9 @@ public class BorderPaneController {
 				textBox.setLayoutY(symbol.getY() - symbol.getHeight() / 2);
 				textBox.setPrefWidth(symbol.getWidth() - 2 * symbol.getWidth() / 10);
 			} else if (symbol instanceof LLine) {
-				LLine line =(LLine) symbol;
-				textBox.setLayoutX((line.getStartX()+line.getEndX())/2);
-				textBox.setLayoutY((line.getStartY()+line.getEndY())/2);
+				LLine line = (LLine) symbol;
+				textBox.setLayoutX((line.getStartX() + line.getEndX()) / 2);
+				textBox.setLayoutY((line.getStartY() + line.getEndY()) / 2);
 				textBox.setPrefWidth(30);
 			} else {
 				textBox.setVisible(false);
