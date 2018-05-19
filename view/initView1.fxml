@@ -14,7 +14,7 @@
 
 <BorderPane onKeyPressed="#delete" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.BorderPaneController">
 	<center>
-		<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#paneClicked" prefHeight="571.0" prefWidth="670.0" BorderPane.alignment="CENTER" />
+		<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#paneClicked" onMouseMoved="#paneMouseMove" prefHeight="571.0" prefWidth="670.0" BorderPane.alignment="CENTER" />
 	</center>
    <top>
 		<MenuBar BorderPane.alignment="CENTER">
@@ -93,7 +93,7 @@
       								<Cursor fx:constant="HAND" />
       							</cursor>
       						</Path>
-      						<Line fx:id="line" endX="100.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#drawLine" startX="20.0" strokeDashOffset="10.0" strokeLineCap="BUTT" strokeLineJoin="ROUND" strokeMiterLimit="0.0" strokeWidth="2.0">
+      						<Line fx:id="line" endX="100.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#drawLine1" startX="20.0" strokeDashOffset="10.0" strokeLineCap="BUTT" strokeLineJoin="ROUND" strokeMiterLimit="0.0" strokeWidth="2.0">
       							<VBox.margin>
       								<Insets bottom="15.0" left="20.0" top="15.0" />
       							</VBox.margin>

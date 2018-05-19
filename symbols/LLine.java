@@ -76,22 +76,36 @@ public class LLine extends Path implements Symbol, Serializable {
 		this.setFill(Color.BLACK);
 		this.showSymbolBorder();
 		this.updateText();
-		this.setOnMouseClicked(e -> {
-			drawElectBox();
-			this.updateText();
-		});
+//		this.setOnMouseClicked(e -> {
+//			drawElectBox();
+//			this.updateText();
+//		});
 
-		this.setOnMouseDragged(e -> {
-			drawElectBox();
-			double x = (startX + endX) / 2;
-			double y = (startY + endY) / 2;
-			startX += e.getX() - x;
-			startY += e.getY() - y;
-			endX += e.getX() - x;
-			endY += e.getY() - y;
+		this.setOnMouseMoved(e->{
+			endX=e.getX();
+			endY=e.getY();
 			updatePath();
-			
 		});
+		
+//		this.setOnMouseDragged(e -> {
+//			drawElectBox();
+//			double x = (startX + endX) / 2;
+//			double y = (startY + endY) / 2;
+//			startX += e.getX() - x;
+//			startY += e.getY() - y;
+//			endX += e.getX() - x;
+//			endY += e.getY() - y;
+//			updatePath();
+//			
+//		});
+	}
+
+	public boolean isWithArrow() {
+		return withArrow;
+	}
+
+	public void setWithArrow(boolean withArrow) {
+		this.withArrow = withArrow;
 	}
 
 	private void updateText() {
@@ -117,16 +131,13 @@ public class LLine extends Path implements Symbol, Serializable {
 	private void drawElectBox() {
 		this.isElected = true;
 		cBox[0].setOnMouseDragged(e -> {
-//			this.startX += e.getX() - cBox[0].getCenterX();
-//			this.startY += e.getY() - cBox[0].getCenterY();
+
 			this.startX=e.getX();
 			this.startY=e.getY();
 			updatePath();
 			draw();
 		});
 		cBox[1].setOnMouseDragged(e -> {
-//			this.endX += e.getX() - cBox[1].getCenterX();
-//			this.endY += e.getY() - cBox[1].getCenterY();
 			this.endX=e.getX();
 			this.endY=e.getY();
 			updatePath();
@@ -198,7 +209,7 @@ public class LLine extends Path implements Symbol, Serializable {
 		this.getElements().addAll(start, line1, line2, line3, line4);
 	}
 
-	private void updatePath() {
+	public void updatePath() {
 		if (withArrow) {
 			drawLineArrow();
 		}else {
@@ -243,6 +254,8 @@ public class LLine extends Path implements Symbol, Serializable {
 	public LLine() {
 		
 	}
+	
+
 	/**
 	 * 
 	 * LLine构造函数

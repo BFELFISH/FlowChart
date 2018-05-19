@@ -612,7 +612,6 @@ public class RoundRectangle extends Rectangle implements Symbol ,Serializable{
 
 	public Circle[] getCircles() {
 
-		// TODO Auto-generated method stub
 
 		return null;
 

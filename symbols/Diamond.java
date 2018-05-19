@@ -140,8 +140,6 @@ public class Diamond extends Polygon implements Symbol,Serializable {
 
 			drawElectBox();
 
-
-
 			this.getPoints().addAll(points);
 
 			this.updateText();
@@ -209,16 +207,8 @@ public class Diamond extends Polygon implements Symbol,Serializable {
 
 
 	private void updatePoints() {
-
-
-
 		this.getPoints().clear();
-
-
-
 		points = new Double[] { x, y, x + width / 2, y - height / 2, x + width, y, x + width / 2, y + height / 2 };
-
-
 
 	}
 

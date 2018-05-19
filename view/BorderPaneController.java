@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Stack;
 
+import control.DrawSymbol;
 import control.MyUtil;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -17,6 +18,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Path;
+import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
@@ -29,6 +31,7 @@ import symbols.LLine;
 import symbols.Parallelogram;
 import symbols.RRectangle;
 import symbols.RoundRectangle;
+import symbols.SpotLine;
 import symbols.Symbol;
 import javafx.scene.Node;
 import javafx.scene.ParallelCamera;
@@ -62,21 +65,23 @@ public class BorderPaneController {
 
 	private boolean isElectedSymbols = false;// 当前是否有被选中的元素
 	private boolean isControlDown = false;
+	private boolean isDrawLine = false;
 	private boolean isDoubleClicked = false;// 是否双击左侧图形栏中的图形
 	private TextField textBox = new TextField("");
+	private Symbol bufferSymbol;
 	private LinkedList<Symbol> symbolList = new LinkedList<Symbol>();
 	private LinkedList<LinkedList<Shape>> boxList = new LinkedList<LinkedList<Shape>>();
 	private LinkedList<LLine> lineList = new LinkedList<LLine>();
 	private LinkedList<LinkedList<Symbol>> caretaker = new LinkedList<>();
-	private Symbol bufferSymbol;
+	private LinkedList<Point2D> linePoints = new LinkedList<>();// 点线集的点集合
 	// private Caretaker caretaker = new Caretaker();
-
+	private LLine bufLine=new LLine();//仅用于画直线时的缓冲直线，无用
 	@FXML
 	private void drawRect(MouseEvent e) {
 		textBox.setVisible(false);
 		DrawSymbol draw = new DrawSymbol(pane);
-		RRectangle rect=new RRectangle();
-		bufferSymbol=rect;
+		RRectangle rect = new RRectangle();
+		bufferSymbol = rect;
 		if (e.getClickCount() == 1) {
 			isDoubleClicked = false;
 		} else {
@@ -90,8 +95,8 @@ public class BorderPaneController {
 	private void drawRoundRect(MouseEvent e) {
 		textBox.setVisible(false);
 		DrawSymbol draw = new DrawSymbol(pane);
-		RoundRectangle roundRect=new RoundRectangle();
-		bufferSymbol=roundRect;
+		RoundRectangle roundRect = new RoundRectangle();
+		bufferSymbol = roundRect;
 		if (e.getClickCount() == 1) {
 			isDoubleClicked = false;
 		} else {
@@ -105,8 +110,8 @@ public class BorderPaneController {
 	private void drawDiamond(MouseEvent e) {
 		textBox.setVisible(false);
 		DrawSymbol draw = new DrawSymbol(pane);
-		Diamond diamond=new Diamond();
-		bufferSymbol=diamond;
+		Diamond diamond = new Diamond();
+		bufferSymbol = diamond;
 		if (e.getClickCount() == 1) {
 			isDoubleClicked = false;
 		} else {
@@ -120,8 +125,8 @@ public class BorderPaneController {
 	private void drawParallelogram(MouseEvent e) {
 		textBox.setVisible(false);
 		DrawSymbol draw = new DrawSymbol(pane);
-		Parallelogram p=new Parallelogram();
-		bufferSymbol=p;
+		Parallelogram p = new Parallelogram();
+		bufferSymbol = p;
 		if (e.getClickCount() == 1) {
 			isDoubleClicked = false;
 		} else {
@@ -132,11 +137,12 @@ public class BorderPaneController {
 	}
 
 	@FXML
-	private void drawLine(MouseEvent e) {
+	private void drawLine1(MouseEvent e) {
 		textBox.setVisible(false);
+		isDrawLine = true;
 		DrawSymbol draw = new DrawSymbol(pane);
-		LLine line=new LLine();
-		bufferSymbol=line;
+		SpotLine spotLine = new SpotLine();
+		bufferSymbol = spotLine;
 		if (e.getClickCount() == 1) {
 			isDoubleClicked = false;
 		} else {
@@ -144,19 +150,14 @@ public class BorderPaneController {
 			symbolList.add(draw.addSymbol(bufferSymbol, isDoubleClicked, e.getX(), e.getY()));
 			repaint();
 		}
-	}
-
-	private void drawLine1(Symbol symbol) {
-		lineList.addAll(symbol.getLines());
-		repaint();
 	}
 
 	@FXML
 	private void drawCircle(MouseEvent e) {
 		textBox.setVisible(false);
 		DrawSymbol draw = new DrawSymbol(pane);
-		CCircle circle=new CCircle();
-		bufferSymbol=circle;
+		CCircle circle = new CCircle();
+		bufferSymbol = circle;
 		if (e.getClickCount() == 1) {
 			isDoubleClicked = false;
 		} else {
@@ -170,8 +171,8 @@ public class BorderPaneController {
 	private void drawCurveRect(MouseEvent e) {
 		textBox.setVisible(false);
 		DrawSymbol draw = new DrawSymbol(pane);
-		CurveRectangle cr=new CurveRectangle();
-		bufferSymbol=cr;
+		CurveRectangle cr = new CurveRectangle();
+		bufferSymbol = cr;
 		if (e.getClickCount() == 1) {
 			isDoubleClicked = false;
 		} else {
@@ -182,63 +183,101 @@ public class BorderPaneController {
 	}
 
 	@FXML
+	private void paneMouseMove(MouseEvent e) {
+		if(isDrawLine) {
+			bufLine.setEndX(e.getX());
+			bufLine.setEndY(e.getY());
+			bufLine.updatePath();
+		}
+	}
+
+	@FXML
 	private void paneClicked(MouseEvent e) {
+		pane.requestFocus();
+		bufLine=new LLine(e.getX(), e.getY(), e.getX(), e.getY());
+		bufLine.setWithArrow(true);
 		DrawSymbol draw = new DrawSymbol(pane);
-		if (!isDoubleClicked) {
-			textBox.setVisible(false);
-			symbolList.add(draw.addSymbol(bufferSymbol, isDoubleClicked, e.getX(), e.getY()));
-			isDoubleClicked = true;
+		textBox.setVisible(false);
+		while (!isDoubleClicked) {// 单击
+			if (isDrawLine) {
+				if (e.getClickCount() == 1) {// 鼠标单击
+					System.out.println("鼠标单击");
+					linePoints.add(new Point2D(e.getX(), e.getY()));
+					pane.getChildren().add(bufLine);
+					break;
+				} else {// 鼠标双击结束
+					System.out.println("鼠标双击结束");
+					SpotLine spotLine = new SpotLine(linePoints);
+					symbolList.add(spotLine);
+					pane.getChildren().add(bufLine);
+					isDoubleClicked = true;
+					isDrawLine = false;
+					repaint();
+					break;
+				}
+			} else {// 当前不处于画直线操作
+				symbolList.add(draw.addSymbol(bufferSymbol, isDoubleClicked, e.getX(), e.getY()));
+				isDoubleClicked = true;
+				isDrawLine = false;
+				repaint();
+				break;
+			}
+		}
+
+		if (!isDrawLine) {
+			double x = e.getX();
+			double y = e.getY();
+			int index = findClickedElement(new Point2D(x, y));
+			if (index == -1) {// 没有被选中的图形
+				isElectedSymbols = false; // 当前没有选中任何图形
+				boxList.clear(); // 清除所有操作框
+				textBox.setVisible(false);
+				for (Symbol symbol : symbolList) {
+					symbol.setElected(false);
+					symbol.setTextFieldIsEleted(false);
+				}
+				isControlDown = false;
+			} else if (index == -2) {// 选中了操作框，当前处于操作阶段
+				textBox.setVisible(false);
+				isElectedSymbols = true;
+			} else {// 选中了图形
+				System.out.println("isControlDown:" + isControlDown);
+				if (isControlDown) {// 多选
+					boxList.clear();
+					symbolList.get(index).setElected(true);// 当前图形节点被选中，设为true
+					for (Symbol symbol : symbolList) {
+						if (symbol.isElected())
+							drawBox(symbol);
+					}
+				} else {// 单选
+					boxList.clear();
+					for (Symbol symbol : symbolList) {
+						symbol.setElected(false);// 全部选中状态设为false
+					}
+					symbolList.get(index).setElected(true);// 当前图形节点选中设为true
+					drawBox(symbolList.get(index));
+				}
+				if (e.getClickCount() == 2) {// 双击出现文本框
+					textBox.setVisible(true);
+					symbolList.get(index).setTextFieldIsEleted(true);
+					drawTextField(symbolList.get(index));
+					// symbolList.get(index).setTextFieldIsEleted(false);
+				}
+			}
+			// caretaker.add(new Memento(symbolList));
 			repaint();
 		}
-		
-		pane.requestFocus();
-		textBox.setVisible(false);
-		double x = e.getX();
-		double y = e.getY();
-		int index = findClickedElement(new Point2D(x, y));
-		if (index == -1) {// 没有被选中的图形
-			isElectedSymbols = false; // 当前没有选中任何图形
-			boxList.clear(); // 清除所有操作框
-			textBox.setVisible(false);
-			for (Symbol symbol : symbolList) {
-				symbol.setElected(false);
-				symbol.setTextFieldIsEleted(false);
-			}
-			isControlDown = false;
-		} else if (index == -2) {// 选中了操作框，当前处于操作阶段
-			textBox.setVisible(false);
-			isElectedSymbols = true;
-		} else {// 选中了图形
-			System.out.println("isControlDown:" + isControlDown);
-			if (isControlDown) {// 多选
-				boxList.clear();
-				symbolList.get(index).setElected(true);// 当前图形节点被选中，设为true
-				for (Symbol symbol : symbolList) {
-					if (symbol.isElected())
-						drawBox(symbol);
-				}
-			} else {// 单选
-				boxList.clear();
-				for (Symbol symbol : symbolList) {
-					symbol.setElected(false);// 全部选中状态设为false
-				}
-				symbolList.get(index).setElected(true);// 当前图形节点选中设为true
-				drawBox(symbolList.get(index));
-			}
-			if (e.getClickCount() == 2) {// 双击出现文本框
-				textBox.setVisible(true);
-				symbolList.get(index).setTextFieldIsEleted(true);
-				drawTextField(symbolList.get(index));
-				// symbolList.get(index).setTextFieldIsEleted(false);
-			}
-		}
-		// caretaker.add(new Memento(symbolList));
-		repaint();
 	}
 
 	private void drawBox(Symbol symbol) {
 		LinkedList<Shape> buff = new LinkedList<Shape>();
-		if (symbol.isElected() && symbol instanceof LLine) {
+		// if (symbol.isElected() && symbol instanceof LLine) {
+		// Circle circles[] = symbol.getCircles();
+		// for (Circle c : circles) {
+		// buff.add(c);
+		// }
+		// }
+		if (symbol.isElected() && symbol instanceof SpotLine) {
 			Circle circles[] = symbol.getCircles();
 			for (Circle c : circles) {
 				buff.add(c);

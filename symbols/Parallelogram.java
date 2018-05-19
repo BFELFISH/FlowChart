@@ -477,7 +477,6 @@ public class Parallelogram extends Polygon implements Symbol, Serializable {
 	public void setWidth(double width) {
 
 		this.width = width;
-
 	}
 
 	public double getHeight() {
