@@ -42,7 +42,7 @@ public class SpotLine extends Polyline implements Symbol, Serializable {
 	private Symbol endSymbol; // 线所指的结束图形节点
 //	private LinkedList<Circle> cBox = new LinkedList<Circle>();
 	private Circle[] cBox;
-	private Path arrow= new Path();
+	private LLine arrow= new LLine();//画箭头
 	private LinkedList<Point2D> linePoints = new LinkedList<>();
 	private final double OFFSET = 10;
 
@@ -58,15 +58,15 @@ public class SpotLine extends Polyline implements Symbol, Serializable {
 			cBox[i]=circle;
 			cBox[i].setCursor(Cursor.HAND);
 			cBox[i].setFill(Color.WHITE);
-			cBox[i].setStroke(Color.BLACK);
+			cBox[i].setStroke(Color.DARKRED);
 		}
 		this.getPoints().addAll(points);
 		
-		this.setStrokeWidth(1.3);
+		this.setStrokeWidth(2.3);
 		this.setCursor(Cursor.HAND);
 		this.setStroke(Color.BLACK);
 		this.setFill(null);
-
+		this.updatePoints();
 		this.showSymbolBorder();
 		this.setOnMouseClicked(e -> {
 			this.drawElectBox();
@@ -82,11 +82,11 @@ public class SpotLine extends Polyline implements Symbol, Serializable {
 	private void showSymbolBorder() {
 		this.setOnMouseEntered(e -> {
 			this.setStroke(Color.DARKRED);
-			this.setStrokeWidth(2.0);
+//			this.setStrokeWidth(2.0);
 		});
 		this.setOnMouseExited(e -> {
 			this.setStroke(Color.BLACK);
-			this.setStrokeWidth(1.3);
+//			this.setStrokeWidth(1.3);
 		});
 	}
 
@@ -108,6 +108,14 @@ public class SpotLine extends Polyline implements Symbol, Serializable {
 		this.getPoints().addAll(points);
 	}
 
+	public LLine getArrow() {
+		return arrow;
+	}
+
+	public void setArrow(LLine arrow) {
+		this.arrow = arrow;
+	}
+
 	//画出操作框
 	private void drawElectBox() {
 		this.isElected = true;
@@ -121,6 +129,13 @@ public class SpotLine extends Polyline implements Symbol, Serializable {
 	}
 
 	private void drawLineArrow() {
+		if(linePoints.size()!=0) {
+			startX=linePoints.get(linePoints.size()-2).getX();
+			startY=linePoints.get(linePoints.size()-2).getY();
+			endX=linePoints.getLast().getX();
+			endY=linePoints.getLast().getY();
+		}
+		arrow.getElements().clear();
 		double H = 10; // 箭头高度
 		double L = 4; // 底边的一半
 		int x3 = 0;
@@ -143,11 +158,13 @@ public class SpotLine extends Polyline implements Symbol, Serializable {
 		x4 = X4.intValue();
 		Double Y4 = new Double(y_4);
 		y4 = Y4.intValue();
-		MoveTo start = new MoveTo(endX, endY);
-		LineTo line1 = new LineTo(x3, y3);
-		LineTo line2 = new LineTo(x4, y4);
-		LineTo line3 = new LineTo(endX, endY);
-		arrow.getElements().addAll(start, line1, line2, line3);
+		MoveTo start = new MoveTo(startX, startY);
+		LineTo line1 = new LineTo(endX, endY);
+		LineTo line2 = new LineTo(x3, y3);
+		LineTo line3 = new LineTo(x4, y4);
+		LineTo line4 = new LineTo(endX, endY);
+		arrow.getElements().addAll(start, line1, line2, line3, line4);
+		arrow.setFill(Color.BLACK);
 	}
 
 	// 计算

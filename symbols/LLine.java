@@ -70,7 +70,7 @@ public class LLine extends Path implements Symbol, Serializable {
 
 	private void initialize() {
 		updatePath();
-		this.setStrokeWidth(1.3);
+		this.setStrokeWidth(2.3);
 		this.setCursor(Cursor.HAND);
 		this.setStroke(Color.BLACK);
 		this.setFill(Color.BLACK);
@@ -120,11 +120,11 @@ public class LLine extends Path implements Symbol, Serializable {
 	private void showSymbolBorder() {
 		this.setOnMouseEntered(e -> {
 			this.setStroke(Color.DARKRED);
-			this.setStrokeWidth(2.0);
+//			this.setStrokeWidth(2.0);
 		});
 		this.setOnMouseExited(e -> {
 			this.setStroke(Color.BLACK);
-			this.setStrokeWidth(1.3);
+//			this.setStrokeWidth(1.3);
 		});
 	}
 
