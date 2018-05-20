@@ -73,6 +73,7 @@ public class SpotLine extends Polyline implements Symbol, Serializable {
 		});
 		this.setOnMouseDragged(e -> {
 			this.drawElectBox();
+//			this.updatePoints();
 		});
 	}
 
@@ -104,6 +105,7 @@ public class SpotLine extends Polyline implements Symbol, Serializable {
 			points[2 * i] = linePoints.get(i).getX();
 			points[2 * i + 1] = linePoints.get(i).getY();
 		}
+		
 		drawLineArrow();
 		this.getPoints().addAll(points);
 	}

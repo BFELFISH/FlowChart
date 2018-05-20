@@ -73,7 +73,7 @@ public class BorderPaneController {
 	private TextField textBox = new TextField("");
 	private Symbol bufferSymbol;
 	private LinkedList<Symbol> symbolList = new LinkedList<Symbol>();
-	Operate operate = new Operate(symbolList);
+	private Operate operate = new Operate(symbolList);
 	private LinkedList<LinkedList<Shape>> boxList = new LinkedList<LinkedList<Shape>>();
 	private LinkedList<LLine> lineList = new LinkedList<LLine>();
 	private LinkedList<LinkedList<Symbol>> caretaker = new LinkedList<>();
@@ -214,13 +214,18 @@ public class BorderPaneController {
 		while (isDrawSymbol && !isDoubleClicked) {// 单击
 			if (isDrawLine) {
 				if (e.getClickCount() == 1) {// 鼠标单击
-					System.out.println("鼠标单击");
+//					System.out.println("鼠标单击");
 					linePoints.add(new Point2D(e.getX(), e.getY()));
 					pane.getChildren().add(bufLine);
 					break;
 				} else {// 鼠标双击结束
-					System.out.println("鼠标双击结束");
-					SpotLine spotLine = new SpotLine(linePoints);
+//					System.out.println("鼠标双击结束");
+					LinkedList<Point2D> points=new LinkedList<>();
+					for (Point2D point : linePoints) {
+						Point2D point2d=new Point2D(point.getX(), point.getY());
+						points.add(point2d);
+					}
+					SpotLine spotLine = new SpotLine(points);
 					LLine arrow = spotLine.getArrow();
 					symbolList.add(spotLine);
 					symbolList.add(arrow);
@@ -387,9 +392,7 @@ public class BorderPaneController {
 		LinkedList<Symbol> buf = new LinkedList<Symbol>();
 		int index = 0;
 		for (Symbol symbol : symbols) {
-			// System.out.println("symbolListClone方法");
-			// System.out.println(symbol);
-			// System.out.println(symbol.clone());
+			
 			buf.add(index, symbol.clone());
 			index++;
 		}
