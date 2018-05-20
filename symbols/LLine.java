@@ -2,11 +2,13 @@ package symbols;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import com.sun.javafx.tk.Toolkit;
 
 import control.ChooseBox;
 import control.MyUtil;
+import javafx.collections.ObservableList;
 import javafx.scene.Cursor;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.Light.Point;
@@ -18,7 +20,7 @@ import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 
 import javafx.scene.shape.Path;
-
+import javafx.scene.shape.PathElement;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
@@ -76,28 +78,13 @@ public class LLine extends Path implements Symbol, Serializable {
 		this.setFill(Color.BLACK);
 		this.showSymbolBorder();
 		this.updateText();
-//		this.setOnMouseClicked(e -> {
-//			drawElectBox();
-//			this.updateText();
-//		});
 
-		this.setOnMouseMoved(e->{
-			endX=e.getX();
-			endY=e.getY();
-			updatePath();
-		});
-		
-//		this.setOnMouseDragged(e -> {
-//			drawElectBox();
-//			double x = (startX + endX) / 2;
-//			double y = (startY + endY) / 2;
-//			startX += e.getX() - x;
-//			startY += e.getY() - y;
-//			endX += e.getX() - x;
-//			endY += e.getY() - y;
+//		this.setOnMouseMoved(e->{
+//			endX=e.getX();
+//			endY=e.getY();
 //			updatePath();
-//			
 //		});
+		
 	}
 
 	public boolean isWithArrow() {
@@ -252,9 +239,13 @@ public class LLine extends Path implements Symbol, Serializable {
 
 	
 	public LLine() {
-		
+		this.initialize();
 	}
 	
+	public LLine(ObservableList<PathElement> elements ) {
+		this.getElements().addAll(elements);
+		this.initialize();
+	}
 
 	/**
 	 * 

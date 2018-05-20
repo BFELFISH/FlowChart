@@ -18,27 +18,22 @@ public class Operate {
 		return symbolList;
 	}
 
-
 	public LinkedList<Symbol> delete() {
 		LinkedList<Symbol> buf = new LinkedList<>();
-		int index = 0;
 		for (Symbol symbol : symbolList) {
-			if (symbol.isElected())
+			if (symbol.isElected()) {
 				buf.add(symbol);
-			if (symbol instanceof SpotLine) {
-				buf.add(symbolList.get(index + 1));
 			}
-			index++;
 		}
 		symbolList.removeAll(buf);
 		return symbolList;
 	}
-	
+
 	public void copy() {// 复制
 		LinkedList<Symbol> buf = new LinkedList<>();
 		int index = 0;
 		for (Symbol symbol : symbolList) {
-			if (symbol.isElected()) 
+			if (symbol.isElected())
 				buf.add(symbol);
 			if (symbol instanceof SpotLine) {
 				buf.add(symbolList.get(index + 1));

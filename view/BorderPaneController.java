@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Stack;
 
+import com.sun.javafx.stage.EmbeddedWindow;
+
 import control.DrawSymbol;
 import control.MyUtil;
 import control.Operate;
@@ -73,6 +75,7 @@ public class BorderPaneController {
 	private TextField textBox = new TextField("");
 	private Symbol bufferSymbol;
 	private LinkedList<Symbol> symbolList = new LinkedList<Symbol>();
+	private LinkedList<LLine> arrowlist = new LinkedList<>();
 	private Operate operate = new Operate(symbolList);
 	private LinkedList<LinkedList<Shape>> boxList = new LinkedList<LinkedList<Shape>>();
 	private LinkedList<LLine> lineList = new LinkedList<LLine>();
@@ -214,21 +217,21 @@ public class BorderPaneController {
 		while (isDrawSymbol && !isDoubleClicked) {// 单击
 			if (isDrawLine) {
 				if (e.getClickCount() == 1) {// 鼠标单击
-//					System.out.println("鼠标单击");
+					// System.out.println("鼠标单击");
 					linePoints.add(new Point2D(e.getX(), e.getY()));
 					pane.getChildren().add(bufLine);
 					break;
 				} else {// 鼠标双击结束
-//					System.out.println("鼠标双击结束");
-					LinkedList<Point2D> points=new LinkedList<>();
+					// System.out.println("鼠标双击结束");
+					LinkedList<Point2D> points = new LinkedList<>();
 					for (Point2D point : linePoints) {
-						Point2D point2d=new Point2D(point.getX(), point.getY());
+						Point2D point2d = new Point2D(point.getX(), point.getY());
 						points.add(point2d);
 					}
 					SpotLine spotLine = new SpotLine(points);
 					LLine arrow = spotLine.getArrow();
 					symbolList.add(spotLine);
-					symbolList.add(arrow);
+					arrowlist.add(spotLine.getArrow());
 					pane.getChildren().add(bufLine);
 					linePoints.clear();
 					isDoubleClicked = true;
@@ -293,12 +296,6 @@ public class BorderPaneController {
 
 	private void drawBox(Symbol symbol) {
 		LinkedList<Shape> buff = new LinkedList<Shape>();
-		// if (symbol.isElected() && symbol instanceof LLine) {
-		// Circle circles[] = symbol.getCircles();
-		// for (Circle c : circles) {
-		// buff.add(c);
-		// }
-		// }
 		if (symbol.isElected() && symbol instanceof SpotLine) {
 			Circle circles[] = symbol.getCircles();
 			for (Circle c : circles) {
@@ -392,7 +389,7 @@ public class BorderPaneController {
 		LinkedList<Symbol> buf = new LinkedList<Symbol>();
 		int index = 0;
 		for (Symbol symbol : symbols) {
-			
+
 			buf.add(index, symbol.clone());
 			index++;
 		}
@@ -468,11 +465,11 @@ public class BorderPaneController {
 				}
 				isControlDown = false;
 				repaint();
-			}else if(k.getCode() == KeyCode.C) {// 复制
-				System.out.println("复制");
+			} else if (k.getCode() == KeyCode.C) {// 复制
+//				System.out.println("复制");
 				copy();
-			}else if (isControlDown && k.getCode() == KeyCode.V) {// 粘贴
-				System.out.println("粘贴");
+			} else if (isControlDown && k.getCode() == KeyCode.V) {// 粘贴
+//				System.out.println("粘贴");
 				paste();
 				repaint();
 			}
@@ -485,21 +482,31 @@ public class BorderPaneController {
 
 	private void delete() {// 删除
 		boxList.clear();
-//		Operate operate = new Operate(symbolList);
+		int index = 0;
+		LinkedList<Symbol> buf=new LinkedList<>();
+		for (Symbol symbol : symbolList) {
+			if (symbol instanceof SpotLine) {
+				if (symbol.isElected()) {
+					buf.add(arrowlist.get(index));
+				}
+				index++;
+			}
+		}
+		arrowlist.removeAll(buf);
 		symbolList = operate.delete();
 		isControlDown = false;
 	}
 
 	private void copy() {
-//		Operate operate = new Operate(symbolList);
+		// Operate operate = new Operate(symbolList);
 		operate.copy();
 		isControlDown = false;
 	}
 
 	private void paste() {
-//		Operate operate = new Operate(symbolList);
+		// Operate operate = new Operate(symbolList);
 		LinkedList<Symbol> copyList = operate.paste();
-//		symbolList.addAll(copyList);
+		// symbolList.addAll(copyList);
 		isControlDown = false;
 	}
 
@@ -507,6 +514,9 @@ public class BorderPaneController {
 		// caretaker.add(new Memento(symbolListClone(symbolList)));
 		pane.getChildren().clear();
 		pane.getChildren().addAll(lineList);
+		for(LLine arrow: arrowlist) {
+			pane.getChildren().add(arrow);
+		}
 		for (Symbol symbol : symbolList) {
 			pane.getChildren().add((Shape) symbol);
 			if (symbol.getText() != null)
