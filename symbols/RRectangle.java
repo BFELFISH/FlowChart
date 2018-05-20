@@ -48,6 +48,7 @@ public class RRectangle extends Rectangle implements Symbol ,Serializable{
 
 	private boolean inEnable=true;
 	private boolean outEnable=true;
+	private boolean whichIsEleted[] = new boolean[2];
 	/**
 	 * 
 	 * 
@@ -154,14 +155,15 @@ public class RRectangle extends Rectangle implements Symbol ,Serializable{
 		});
 
 		circles[1].setOnMouseDragged(e -> {
-
-			if (e.getY() < circles[6].getCenterY()) {
-				this.setY(e.getY() - circles[1].getCenterY() + this.getY());
-				this.setHeight(circles[1].getCenterY() - e.getY() + this.getHeight());
-			}
-
-			cBox.draw(this.getX(), this.getY(), this.getWidth(), this.getHeight());
-			this.updateText();
+//
+//			if (e.getY() < circles[6].getCenterY()) {
+//				this.setY(e.getY() - circles[1].getCenterY() + this.getY());
+//				this.setHeight(circles[1].getCenterY() - e.getY() + this.getHeight());
+//			}
+//
+//			cBox.draw(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+//			this.updateText();
+			whichIsEleted[0] = true;
 		});
 
 		circles[2].setOnMouseDragged(e -> {
@@ -212,10 +214,11 @@ public class RRectangle extends Rectangle implements Symbol ,Serializable{
 
 		circles[6].setOnMouseDragged(e -> {
 
-			LLine l = new LLine(circles[6].getCenterX(), circles[6].getCenterY(), e.getX(), e.getY());
-
-			cBox.draw(this.getX(), this.getY(), this.getWidth(), this.getHeight());
-			this.updateText();
+//			LLine l = new LLine(circles[6].getCenterX(), circles[6].getCenterY(), e.getX(), e.getY());
+//
+//			cBox.draw(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+//			this.updateText();
+			whichIsEleted[1]= true;
 		});
 
 		circles[7].setOnMouseDragged(e -> {
@@ -513,4 +516,21 @@ public class RRectangle extends Rectangle implements Symbol ,Serializable{
 		return null;
 	}
 
+	public void resetWhichIsEleted() {
+		for(int i =0;i<whichIsEleted.length;i++) {
+			whichIsEleted[i]= false;
+		}
+	}
+	
+	public Spot getWhichSpot() {
+		Spot s = new Spot();
+		if(whichIsEleted[0]) {
+			s.setX(this.getX()-cBox.getCircles()[1].getCenterX());
+			s.setY(this.getY()-cBox.getCircles()[1].getCenterY()+cBox.getCircles()[1].getRadius());
+		}else {
+			s.setX(this.getX()-cBox.getCircles()[6].getCenterX());
+			s.setY(this.getY()-cBox.getCircles()[6].getCenterY()-cBox.getCircles()[1].getRadius());
+		}
+		return s;
+	}
 }
