@@ -32,9 +32,7 @@ public class CCircle extends Circle implements Symbol,Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 6856048953730420051L;
-	/**
-	 * 
-	 */
+
 	private boolean isElected = false; // 选中状态，默认没被选中
 	transient private Text text=new Text(""); // 文本框
 	private ChooseBox cBox = new ChooseBox();

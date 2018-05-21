@@ -46,8 +46,6 @@ public class RRectangle extends Rectangle implements Symbol ,Serializable{
 
 	private ArrayList<LLine> lines = new ArrayList<>();
 
-	private boolean inEnable=true;
-	private boolean outEnable=true;
 	private boolean whichIsEleted[] = new boolean[2];
 	/**
 	 * 

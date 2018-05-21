@@ -156,12 +156,12 @@ public class BorderPaneController {
 		SpotLine spotLine = new SpotLine();
 		bufferSymbol = spotLine;
 		if (e.getClickCount() == 1) {
-			isDoubleClicked = false;
-		} else {
-			isDoubleClicked = true;
-			symbolList.add(draw.addSymbol(bufferSymbol, isDoubleClicked, e.getX(), e.getY()));
-			repaint();
-		}
+			isDoubleClicked = false;}
+//		} else {
+//			isDoubleClicked = true;
+//			symbolList.add(draw.addSymbol(bufferSymbol, isDoubleClicked, e.getX(), e.getY()));
+//			repaint();
+//		}
 		isDrawSymbol = true;
 	}
 
@@ -474,7 +474,7 @@ public class BorderPaneController {
 				repaint();
 			}
 		}
-		if (k.getCode() == KeyCode.BACK_SPACE) {
+		if (k.getCode() == KeyCode.DELETE) {
 			delete();
 			repaint();
 		}
